@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITE EAE Portfolio Builder</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:#f5f5f5;color:#1a1a1a}
+.app{max-width:900px;margin:0 auto;padding:1.25rem 1rem}
+
+/* ── Homepage ── */
+.home{min-height:100vh;background:linear-gradient(135deg,#0d2137 0%,#1565c0 60%,#1976d2 100%);display:flex;align-items:center;justify-content:center;padding:2rem 1rem}
+.home-card{background:#fff;border-radius:18px;padding:2.5rem 2rem;max-width:620px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.home-logo{font-size:11px;font-weight:700;letter-spacing:2px;color:#1976d2;text-transform:uppercase;margin-bottom:1.2rem}
+.home-card h1{font-size:26px;font-weight:700;color:#111;line-height:1.25;margin-bottom:.6rem}
+.home-card h1 span{color:#1976d2}
+.home-sub{font-size:14px;color:#555;line-height:1.65;margin-bottom:1.6rem}
+.home-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:1.8rem}
+.home-step{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:#f5f8ff;border-radius:10px;border:1px solid #ddeaff}
+.step-num{min-width:26px;height:26px;border-radius:50%;background:#1976d2;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-txt strong{font-size:13px;font-weight:600;color:#111;display:block;margin-bottom:1px}
+.step-txt span{font-size:12px;color:#666}
+.home-note{font-size:11px;color:#999;margin-top:1.2rem;line-height:1.6;border-top:1px solid #eee;padding-top:1rem}
+.btn-start{width:100%;padding:14px;background:#1976d2;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:.3px;transition:background .15s}
+.btn-start:hover{background:#1565c0}
+
+/* ── App shell ── */
+.shell{display:none}
+.hdr{margin-bottom:1.1rem;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.hdr-left h1{font-size:20px;font-weight:600;color:#111}
+.hdr-left p{font-size:12px;color:#666;margin-top:3px}
+.hdr-actions{display:flex;gap:6px;flex-shrink:0;margin-top:2px}
+.tabs{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1px solid #ddd;margin-bottom:1.1rem}
+.tab{padding:7px 12px;font-size:12px;border:1px solid transparent;border-radius:6px 6px 0 0;cursor:pointer;background:transparent;color:#666;position:relative;bottom:-1px;white-space:nowrap}
+.tab.active{background:#fff;border-color:#ddd;border-bottom-color:#fff;color:#111;font-weight:500}
+.tab:hover:not(.active){background:#eee;color:#333}
+.sec{display:none}.sec.active{display:block}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.75rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.ct{font-size:13px;font-weight:600;color:#111;margin-bottom:.55rem}
+.lbl{font-size:11px;color:#666;margin-bottom:3px;display:block;text-transform:uppercase;letter-spacing:.3px;font-weight:500}
+input[type=text],select,textarea{width:100%;font-size:13px;color:#111;background:#f9f9f9;border:1px solid #d0d0d0;border-radius:7px;padding:7px 10px;font-family:inherit;outline:none}
+input[type=text]:focus,select:focus,textarea:focus{border-color:#4a90d9;background:#fff}
+textarea{resize:vertical;line-height:1.6}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px}
+.f{margin-bottom:10px}
+.btn{padding:7px 15px;border:1px solid #d0d0d0;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit;background:#fff;color:#333;font-weight:500}
+.btn:hover{background:#f0f0f0}
+.btnp{background:#111;color:#fff;border-color:#111}.btnp:hover{background:#333}
+.btng{background:#1b5e20;color:#fff;border-color:#1b5e20}.btng:hover{background:#2e7d32}
+.fe{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:.9rem}
+.fe-right{display:flex;gap:8px}
+.wc{font-size:11px;text-align:right;margin-top:3px;color:#999}
+.wok{color:#2e7d32}.wwrn{color:#e65100}.wov{color:#c62828}
+.hint{background:#e8f4fd;border:1px solid #b3d9f5;border-radius:7px;padding:9px 12px;font-size:12px;color:#1565c0;margin-bottom:9px;line-height:1.7}
+.warn{background:#fff8e1;border:1px solid #ffc107;border-radius:7px;padding:9px 12px;font-size:12px;color:#795548;margin-bottom:9px}
+.aibox{background:#f9f9f9;border:1px solid #e0e0e0;border-radius:7px;padding:10px 12px;font-size:12px;line-height:1.75;color:#333}
+.aibox strong{font-weight:600;color:#111}.aibox em{font-style:italic}
+.ail{font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.stag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;margin-right:3px;margin-bottom:3px;font-weight:500}
+.s-health{background:#e8f5e9;color:#1b5e20}.s-biz{background:#e3f2fd;color:#0d47a1}
+.s-design{background:#fce4ec;color:#880e4f}.s-ict{background:#ede7f6;color:#311b92}
+.s-eng{background:#fff8e1;color:#e65100}.s-hosp{background:#fbe9e7;color:#bf360c}
+.s-danger{background:#ffebee;color:#c62828}
+.cr{padding:9px 10px;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:5px;cursor:pointer;display:flex;align-items:flex-start;gap:8px;background:#fff;transition:background .15s}
+.cr:hover{background:#f5f5f5}.cr.picked{border-color:#1976d2;background:#e3f2fd}.cr.disabled{opacity:.4;cursor:not-allowed}
+.rb{min-width:22px;height:22px;border-radius:50%;background:#111;color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.rbo{min-width:22px;height:22px;border-radius:50%;border:1.5px solid #ccc;flex-shrink:0;margin-top:1px}
+.pbar{height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden;margin-bottom:1.1rem}
+.pfill{height:100%;background:#1976d2;border-radius:2px;transition:width .3s}
+.ir{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;padding:7px 10px;background:#f5f5f5;border-radius:7px}
+.irc{flex:1;font-size:12px;line-height:1.4}
+.irs{font-size:11px;color:#888;margin-top:1px}
+.rmb{font-size:12px;cursor:pointer;padding:2px 6px;border:none;background:none;color:#999}.rmb:hover{color:#c62828}
+.btna{font-size:12px;color:#888;border:1.5px dashed #ccc;width:100%;text-align:left;padding:8px 10px;border-radius:7px;cursor:pointer;background:transparent;font-family:inherit}
+.btna:hover{background:#f5f5f5;color:#333}
+.nbadge{font-size:9px;padding:1px 5px;border-radius:4px;background:#fff3e0;color:#e65100;margin-left:4px;font-weight:600;border:1px solid #ffcc80}
+.kw-pill{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;margin-right:4px;margin-bottom:4px;background:#f0f0f0;border:1px solid #ddd;color:#555;white-space:normal;word-break:break-word}
+.choice-num{font-size:11px;font-weight:600;background:#111;color:#fff;padding:2px 8px;border-radius:5px;margin-right:6px}
+.chat-wrap{border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin-bottom:10px}
+.chat-msgs{height:310px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#f9f9f9}
+.msg{max-width:84%;padding:8px 12px;border-radius:10px;font-size:12px;line-height:1.65}
+.msg-ai{background:#fff;border:1px solid #e0e0e0;color:#111;align-self:flex-start;border-bottom-left-radius:2px}
+.msg-ai strong{font-weight:600}.msg-ai em{font-style:italic}
+.msg-user{background:#1976d2;color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.chat-chips{display:flex;flex-wrap:wrap;gap:5px;padding:8px 10px;border-top:1px solid #eee;background:#fff}
+.chip{font-size:11px;padding:4px 10px;border:1px solid #d0d0d0;border-radius:14px;cursor:pointer;background:#fff;color:#555;font-family:inherit}
+.chip:hover{background:#f0f0f0;color:#111;border-color:#bbb}
+.chat-row{display:flex;gap:7px;padding:8px 10px;border-top:1px solid #eee;background:#fff}
+.chat-row input{flex:1;border-radius:18px;padding:7px 13px;font-size:12px}
+.chat-row button{padding:7px 14px;border-radius:18px;font-size:12px}
+/* COP badge */
+.cop-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.cop-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 7px;border-radius:5px;font-weight:500}
+.cop-green{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7}
+.cop-amber{background:#fff8e1;color:#f57f17;border:1px solid #ffe082}
+.cop-red{background:#ffebee;color:#c62828;border:1px solid #ef9a9a}
+.cop-new{background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8}
+.cop-note{font-size:10px;color:#999;font-style:italic;margin-top:3px}
+.cop-gap{display:block;font-size:10px;font-weight:400;margin-top:2px;line-height:1.4;font-style:italic}
+.cop-gap-ok{color:#1b5e20}
+.cop-gap-close{color:#e65100}
+.cop-gap-far{color:#c62828}
+/* Grade calculator */
+.calc-toggle{font-size:12px;color:#1565c0;cursor:pointer;text-decoration:underline;font-weight:500}
+.calc-panel{display:none;margin-top:10px;border:1px solid #ddeaff;border-radius:8px;padding:12px;background:#f5f8ff}
+.grade-row{display:grid;grid-template-columns:70px 1fr 90px 52px;gap:5px;align-items:center;margin-bottom:6px}
+.grade-row .lbl{margin-bottom:0;font-size:11px}
+.agg-result{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:13px;font-weight:600;background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9}
+/* Draft panel */
+.draft-panel{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:.75rem 1rem;margin-bottom:.75rem}
+.draft-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0f0f0}
+.draft-row:last-child{border-bottom:none}
+.draft-name{flex:1;font-size:12px;font-weight:500}
+.draft-meta{font-size:11px;color:#999}
+/* Version history */
+.ver-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 9px;border:1px solid #d0d0d0;border-radius:10px;cursor:pointer;background:#fff;margin-right:4px;margin-bottom:4px;font-family:inherit}
+.ver-chip:hover{background:#f0f0f0}
+.ver-chip.active-ver{background:#1976d2;color:#fff;border-color:#1976d2}
+.ver-chip .ver-date{font-size:10px;opacity:.75}
+/* Print */
+@media print{
+  .home,.tabs,.pbar,.hdr-actions,.fe,.chat-wrap,.chip,.btna,.rmb,.nbadge,.draft-panel,#checklist button,button,.calc-panel,.calc-toggle,.cop-note{display:none!important}
+  .shell{display:block!important}
+  .sec{display:block!important}
+  .app{max-width:100%;padding:0}
+  .card{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+  body{font-size:12px}
+  .hint{background:#f0f0f0!important;-webkit-print-color-adjust:exact}
+}
+
+/* ── Export / print form ── */
+.ite-form{font-family:'Times New Roman',Times,serif;font-size:12px;color:#000;line-height:1.5;max-width:760px;margin:0 auto}
+.ite-form-header{text-align:center;margin-bottom:16px}
+.ite-form-header img{height:40px;margin-bottom:4px}
+.ite-form-logo{font-size:13px;font-weight:700;color:#c00}
+.ite-form-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.ite-form-sub{font-size:12px;font-weight:700;text-decoration:underline;margin-bottom:16px}
+.ite-section{border:1px solid #000;margin-bottom:0}
+.ite-section-hdr{background:#d0d0d0;font-weight:700;font-size:11px;padding:4px 8px;border-bottom:1px solid #000;text-transform:uppercase}
+.ite-section-body{padding:6px 8px}
+.ite-field{margin-bottom:4px;font-size:12px}
+.ite-choice-row{display:grid;grid-template-columns:80px 1fr 160px;gap:0;border-bottom:1px solid #999;margin-bottom:0}
+.ite-choice-label{background:#eee;font-weight:700;font-size:11px;padding:4px 6px;border-right:1px solid #999;display:flex;align-items:flex-start}
+.ite-choice-inner{padding:4px 6px}
+.ite-choice-meta{display:grid;grid-template-columns:1fr;border-left:1px solid #999;padding:4px 6px;font-size:11px}
+.ite-writeup-box{border-top:1px solid #ddd;margin-top:4px;padding-top:4px;font-size:11px;color:#333;line-height:1.6;min-height:80px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.ite-section2{border-top:none}
+.checklist-section{background:#fff;border:1px solid #000;margin-top:0;border-top:none}
+.checklist-hdr{background:#d0d0d0;font-weight:700;font-size:11px;padding:4px 8px;border-bottom:1px solid #000;text-transform:uppercase}
+.checklist-body{padding:8px 10px;font-size:11px;line-height:1.8}
+.checklist-body li{list-style:none;padding-left:4px;margin-bottom:3px}
+.checklist-body li::before{content:"☐ ";font-size:14px;line-height:1}
+.checklist-item-done::before{content:"☑ "}
+.print-note{background:#fffde7;border:1px solid #f9a825;border-radius:6px;padding:8px 12px;font-size:11px;color:#5d4037;margin-bottom:10px;font-family:-apple-system,sans-serif}
+@media print{
+  .home,.tabs,.pbar,.hdr-actions,.fe,.chat-wrap,.chip,.btna,.rmb,.nbadge,.draft-panel,
+  #checklist button,button,.calc-panel,.calc-toggle,.cop-note,.print-note{display:none!important}
+  .shell{display:block!important}
+  .sec{display:block!important}
+  .app{max-width:100%;padding:0}
+  .card{box-shadow:none;break-inside:avoid}
+  .ite-form{max-width:100%}
+  body{font-size:11px}
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE LAYOUT — applies only on screens ≤ 600px
+   Desktop / laptop view is completely unaffected
+══════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+
+  /* ── 1. Grade calculator: 4 columns compact on mobile ── */
+  .grade-row {
+    grid-template-columns: 52px 1fr 70px 36px;
+    gap: 3px;
+    margin-bottom: 5px;
+  }
+  .grade-row select, .grade-row .grade-subj {
+    font-size: 11px;
+    padding: 4px 3px;
+  }
+  .grade-row .grade-rm {
+    font-size: 11px;
+    padding: 4px 3px;
+    white-space: nowrap;
+  }
+
+  /* ── 2. COP badges: stack vertically, gap msg below ── */
+  .cop-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cop-badge {
+    display: block;
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 11px;
+    border-radius: 7px;
+    line-height: 1.4;
+  }
+  .cop-gap {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* ── 3. Choices summary: campus selector below name ── */
+  .choice-summary-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 8px 10px;
+  }
+  .choice-summary-row .choice-campus {
+    width: 100%;
+    margin-top: 2px;
+  }
+  .choice-summary-row .choice-campus select {
+    width: 100%;
+    font-size: 13px;
+  }
+  .choice-campus-prompt {
+    display: block;
+    font-size: 10px;
+    color: #e65100;
+    margin-bottom: 3px;
+  }
+
+  /* ── 4. General mobile polish ── */
+  .r2 {
+    grid-template-columns: 1fr;
+  }
+  .app {
+    padding: 0.75rem 0.6rem;
+  }
+  .hdr-actions {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .tab {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+  .home-card {
+    padding: 1.8rem 1.2rem;
+  }
+  .home-card h1 {
+    font-size: 22px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     HOMEPAGE
+══════════════════════════════════════════════════════════ -->
+<div class="home" id="homepage">
+  <div class="home-card">
+    <div class="home-logo">ITE Early Admissions Exercise</div>
+    <h1>Your <span>EAE Portfolio</span><br>starts here.</h1>
+    <p class="home-sub">The ITE Early Admissions Exercise (EAE) lets Secondary 4 and 5 students apply for 3-year Higher Nitec courses <strong>before results are released</strong> — based on your strengths, interests and portfolio. This tool helps you explore all 49 courses, choose up to 3, and craft your 100-word write-up for each.</p>
+    <div class="home-steps">
+      <div class="home-step">
+        <div class="step-num">1</div>
+        <div class="step-txt">
+          <strong>Explore courses</strong>
+          <span>Chat with an AI advisor to find Higher Nitec courses that match what you enjoy and are good at.</span>
+        </div>
+      </div>
+      <div class="home-step">
+        <div class="step-num">2</div>
+        <div class="step-txt">
+          <strong>Choose up to 3 courses</strong>
+          <span>Rank your choices in order of preference. Browse all 49 courses with entry requirements and cut-off references.</span>
+        </div>
+      </div>
+      <div class="home-step">
+        <div class="step-num">3</div>
+        <div class="step-txt">
+          <strong>Write your application</strong>
+          <span>Answer 4 guiding questions in ~100 words per course. Get AI coaching questions and track your revisions.</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn-start" onclick="startApp()">Get started →</button>
+    <p class="home-note">Your work is saved automatically in your browser. Nothing is sent anywhere — everything stays on your device. When you're ready, use Print / Save PDF to keep a copy.<br><br>EAE applications are submitted at <strong>ite.edu.sg/apply-eae</strong>. This tool is for preparation only.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MAIN APP SHELL
+══════════════════════════════════════════════════════════ -->
+<div class="shell" id="shell">
+<div class="app">
+<div class="hdr">
+  <div class="hdr-left">
+    <h1>ITE EAE Portfolio Builder</h1>
+    <p>All 49 Higher Nitec courses · up to 3 choices · ~100 words each</p>
+  </div>
+  <div class="hdr-actions">
+    <button class="btn" onclick="document.getElementById('homepage').style.display='flex';document.getElementById('shell').style.display='none'" title="Back to home">🏠</button>
+    <button class="btn" onclick="showDrafts()" title="Save or load a draft">💾 Drafts</button>
+    <button class="btn btng" onclick="window.print()" title="Print or save as PDF">🖨 Print / PDF</button>
+  </div>
+</div>
+
+<div id="draft-panel" class="draft-panel" style="display:none">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <span style="font-size:13px;font-weight:600">Saved Drafts</span>
+    <div style="display:flex;gap:6px">
+      <input type="text" id="draft-name-in" placeholder="Draft name (optional)" style="width:180px;font-size:12px;padding:5px 9px">
+      <button class="btn btnp" onclick="saveDraft()" style="font-size:12px;padding:5px 12px">Save current</button>
+      <button class="btn" onclick="document.getElementById('draft-panel').style.display='none'" style="font-size:12px;padding:5px 10px">✕</button>
+    </div>
+  </div>
+  <div id="draft-list"><span style="font-size:12px;color:#999">No saved drafts yet.</span></div>
+</div>
+
+<div class="pbar"><div class="pfill" id="pf" style="width:20%"></div></div>
+
+<div class="tabs">
+  <button class="tab active" onclick="go('profile')">1. Profile</button>
+  <button class="tab" onclick="go('chat')">2. Explore</button>
+  <button class="tab" onclick="go('pick')">3. Choose</button>
+  <button class="tab" onclick="go('writeup')">4. Write-ups</button>
+  <button class="tab" onclick="go('ach')">5. Achievements</button>
+  <button class="tab" onclick="go('export')">6. 📋 Final Export</button>
+</div>
+
+<!-- ── TAB 1: PROFILE ── -->
+<div id="tab-profile" class="sec active">
+  <div class="hint">The ITE EAE write-up is ~100 words per course choice. You may select up to 3 courses ranked in order of preference. Submit your application at <strong>ite.edu.sg/apply-eae</strong>.</div>
+  <div class="card">
+    <div class="ct">Your details</div>
+    <div class="r2">
+      <div class="f"><span class="lbl">Full name (as in NRIC)</span><input type="text" id="name" placeholder="Your full name"></div>
+      <div class="f"><span class="lbl">Current school</span><input type="text" id="school" placeholder="e.g. Woodlands Secondary School"></div>
+    </div>
+    <div class="r2">
+      <div class="f"><span class="lbl">Current level</span>
+        <select id="level">
+          <option value="">Select your level</option>
+          <option>Sec 4</option><option>Sec 5</option>
+        </select>
+      </div>
+      <div class="f"><span class="lbl">Stream</span>
+        <select id="stream" onchange="renderCalc()">
+          <option value="">Select your stream</option>
+          <option value="NA">Normal (Academic)</option>
+          <option value="NT">Normal (Technical)</option>
+          <option value="OL">O-Level / Express</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grade calculator -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div class="ct" style="margin-bottom:0">JIE 'N' Aggregate Score Calculator</div>
+      <span class="calc-toggle" onclick="toggleCalc()">▼ Show calculator</span>
+    </div>
+    <p style="font-size:11px;color:#888;margin-top:4px">Enter your current subject grades to estimate your ITE aggregate score. A <strong>lower</strong> score = stronger results. Use this to gauge competitiveness against 2025 cut-off points — EAE applicants are not subject to cut-offs.</p>
+    <div class="calc-panel" id="calc-panel">
+      <div style="margin-bottom:10px">
+        <span class="lbl">CCA grade (for bonus points)</span>
+        <select id="cca-grade" onchange="calcAgg()">
+          <option value="0">No CCA / not graded</option>
+          <option value="2">Excellent / Grade A1–A2 (−2 pts)</option>
+          <option value="1">Good / Grade B3–C6 (−1 pt)</option>
+        </select>
+      </div>
+      <div style="font-size:11px;font-weight:600;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px">Enter up to 6 subjects (best 4 will be used)</div>
+      <div id="grade-rows"></div>
+      <button class="btna" onclick="addGradeRow()" style="margin-bottom:8px">+ Add subject</button>
+      <div id="agg-result" class="agg-result" style="display:none"></div>
+      <p style="font-size:10px;color:#999;margin-top:8px">* Select stream per subject row, then pick subject and grade. Aggregate = sum of best 4 subject points minus CCA bonus. Lower is better. N(T): A=1 B=2 C=3 D=4 E/U=5 &nbsp;|&nbsp; N(A): 1/2/3=1, 4=2, 5=3, 6/U=4 &nbsp;|&nbsp; O-level: A1–D7=1, E8=2, F9=3</p>
+    </div>
+  </div>
+
+  <div class="fe">
+    <div></div>
+    <div class="fe-right"><button class="btn btnp" onclick="go('chat')">Next: explore courses →</button></div>
+  </div>
+</div>
+
+<!-- ── TAB 2: CHAT ── -->
+<div id="tab-chat" class="sec">
+  <div class="card">
+    <div class="ct">Explore courses — find what suits you</div>
+    <p style="font-size:12px;color:#666;margin-bottom:8px">Tell the advisor your interests, strengths or the kind of work you enjoy. It will suggest courses from all 49 Higher Nitec options that could be a great fit for you.</p>
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:7px;padding:7px 11px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <span style="font-size:11px;color:#5d4037">💡 <strong>Already know what you want?</strong> Skip the chat and go straight to choosing your courses.</span>
+      <button class="btn btnp" style="font-size:11px;padding:4px 12px;white-space:nowrap;flex-shrink:0" onclick="go('pick')">Choose courses →</button>
+    </div>
+    <div class="chat-wrap">
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="msg msg-ai">Hi! Tell me what you enjoy doing — hobbies, subjects you like, or the kind of work you imagine yourself doing — and I'll suggest ITE Higher Nitec courses that could be a great fit for you.</div>
+      </div>
+      <div class="chat-chips" id="chat-chips">
+        <button class="chip" onclick="chipSend('I enjoy cooking and working with food')">I love cooking</button>
+        <button class="chip" onclick="chipSend('I like technology, computers and IT')">Tech & computers</button>
+        <button class="chip" onclick="chipSend('I enjoy caring for elderly or sick people')">Caring for people</button>
+        <button class="chip" onclick="chipSend('I like art, drawing and creative design work')">Art & design</button>
+        <button class="chip" onclick="chipSend('I enjoy hands-on work, building and fixing things')">Hands-on / fixing things</button>
+        <button class="chip" onclick="chipSend('I like sports, fitness and working outdoors')">Sports & fitness</button>
+        <button class="chip" onclick="chipSend('I enjoy business, customer service and working with people')">Business & service</button>
+        <button class="chip" onclick="chipSend('I like performing arts, theatre, lighting or sound')">Performing arts</button>
+        <button class="chip" onclick="chipSend('I am interested in aviation and aircraft maintenance')">Aviation</button>
+        <button class="chip" onclick="chipSend('I enjoy nature, plants, gardening and the outdoors')">Nature & plants</button>
+        <button class="chip" onclick="chipSend('I like working with vehicles and engines')">Vehicles & engines</button>
+        <button class="chip" onclick="chipSend('I enjoy baking, pastries and cakes')">Baking & pastry</button>
+      </div>
+      <div class="chat-row">
+        <input type="text" id="chat-in" placeholder="Tell me your interests or what you enjoy..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="btn btnp" onclick="sendChat()">Send</button>
+      </div>
+    </div>
+  </div>
+  <div class="fe">
+    <button class="btn" onclick="go('profile')">← Back</button>
+    <div class="fe-right"><button class="btn btnp" onclick="go('pick')">Next: choose courses →</button></div>
+  </div>
+</div>
+
+<!-- ── TAB 3: PICK ── -->
+<div id="tab-pick" class="sec">
+  <div class="hint">Pick up to 3 courses in order of preference — most preferred first. Click a course to add it; click again to remove it. Cut-off points shown are 2025 JIE 'N' reference only — <strong>EAE applicants are not subject to cut-offs.</strong></div>
+  <div class="card">
+    <div class="ct">Your choices <span id="choice-count" style="font-size:11px;font-weight:400;color:#888">0 / 3 selected</span></div>
+    <div id="choices-summary" style="min-height:26px;margin-bottom:10px"><span style="font-size:12px;color:#888">No courses selected yet</span></div>
+    <div class="r2">
+      <div class="f"><span class="lbl">Filter by school</span>
+        <select id="sf" onchange="renderList()">
+          <option value="">All schools</option>
+          <option value="health">Health Sciences</option>
+          <option value="biz">Business & Services</option>
+          <option value="design">Design & Media</option>
+          <option value="ict">Electronics & ICT</option>
+          <option value="eng">Engineering</option>
+          <option value="hosp">Hospitality</option>
+        </select>
+      </div>
+      <div class="f"><span class="lbl">Search course name</span>
+        <input type="text" id="cs" placeholder="e.g. Nursing, Culinary, Cyber..." oninput="renderList()">
+      </div>
+    </div>
+    <div id="clist" style="max-height:420px;overflow-y:auto"></div>
+  </div>
+  <div class="fe">
+    <button class="btn" onclick="go('chat')">← Back</button>
+    <div class="fe-right"><button class="btn btnp" onclick="go('writeup')">Next: write-ups →</button></div>
+  </div>
+</div>
+
+<!-- ── TAB 4: WRITE-UPS ── -->
+<div id="tab-writeup" class="sec">
+  <div id="no-warn" class="warn" style="display:none">No courses selected yet. Go to Tab 3 to choose your courses first.</div>
+  <div id="wu-cards"></div>
+  <div class="fe">
+    <button class="btn" onclick="go('pick')">← Back</button>
+    <div class="fe-right"><button class="btn btnp" onclick="go('ach')">Next: achievements →</button></div>
+  </div>
+</div>
+
+<!-- ── TAB 5: ACHIEVEMENTS ── -->
+<div id="tab-ach" class="sec">
+  <div class="hint">Section 3 of the ITE EAE form asks for other talents and achievements. Include sports, arts, leadership, entrepreneurship and community service. State the category, level (e.g. national/inter-school), your role, activities and awards attained.</div>
+  <div class="card">
+    <div class="ct">CCAs & Leadership Roles</div>
+    <div class="hint" style="margin-bottom:8px">Add each CCA separately. Include any awards or achievements you won <strong>through that CCA</strong> (e.g. SYF Gold through Chinese Orchestra). <strong>Level guide:</strong> School = within your school · Zonal = between schools in your zone · National = Singapore-wide · International = across countries.</div>
+    <div id="cca-list"></div>
+    <button class="btna" onclick="addForm('cca')">+ Add CCA or leadership role</button>
+  </div>
+  <div class="card">
+    <div class="ct">Awards & Competitions <span style="font-size:11px;font-weight:400;color:#888">(not from CCA)</span></div>
+    <div class="hint" style="margin-bottom:8px">Only add awards or competitions that are <strong>not already linked to a CCA</strong> above — e.g. an external math competition you entered independently, a community award, or a scholarship.</div>
+    <div id="award-list"></div>
+    <button class="btna" onclick="addForm('award')">+ Add award or competition (non-CCA)</button>
+  </div>
+  <div class="card">
+    <div class="ct">Community service & other experiences</div>
+    <div id="other-list"></div>
+    <button class="btna" onclick="addForm('other')">+ Add community service or other experience</button>
+  </div>
+
+  <div class="fe">
+    <button class="btn" onclick="go('writeup')">← Back</button>
+    <div class="fe-right"><button class="btn btnp" onclick="go('export')">Next: final export →</button></div>
+  </div>
+</div>
+
+
+<!-- ── TAB 6: EXPORT ── -->
+<div id="tab-export" class="sec">
+  <div class="hint">Your completed ITE EAE application form — formatted to match the official template. Review everything, then print or save as PDF to keep a copy. Copy your write-ups into the actual online form at <strong>ite.edu.sg/apply-eae</strong>.</div>
+  <div id="export-content"></div>
+  <div class="fe">
+    <button class="btn" onclick="go('ach')">← Back</button>
+    <div class="fe-right">
+      <button class="btn btng" onclick="window.print()">🖨 Print / Save PDF</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- .app -->
+</div><!-- .shell -->
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════════════════
+// API key handled server-side via /api/chat proxy
+const MODEL   = 'claude-sonnet-4-20250514';
+const MAX_DRAFTS = 5;
+
+// ══════════════════════════════════════════════════════════════
+// 2025 JIE 'N' CUT-OFF POINTS (per campus, reference only)
+// Campus codes: CC-AM = Central, CE-SM = East, CW-CK = West
+// null = new course, no historical COP
+// ══════════════════════════════════════════════════════════════
+const COP = {
+  'Community Care & Social Services': {'CE-SM':6},
+  'Nursing': {'CE-SM':13},
+  'Opticianry': {'CE-SM':6},
+  'Accounting': {'CC-AM':5,'CE-SM':6,'CW-CK':6},
+  'Beauty & Wellness Management': {'CE-SM':5},
+  'Business Administration': {'CC-AM':3,'CE-SM':6,'CW-CK':3},
+  'Customer Experience': {'CW-CK':9},
+  'Event Management': {'CC-AM':5},
+  'Hairdressing & Salon Management': {'CE-SM':6},
+  'Logistics & Supply Chain Management': {'CE-SM':9},
+  'Passenger Services': {'CC-AM':5,'CE-SM':8},
+  'Retail & Online Business': {'CC-AM':5,'CE-SM':7,'CW-CK':7},
+  'Sport Management': {'CC-AM':4,'CE-SM':5,'CW-CK':6},
+  'Tourism': {'CW-CK':7},
+  'Communication Design': {'CC-AM':3},
+  'Film & Video Production': {'CC-AM':3},
+  'Interior & Product Design': {'CC-AM':4},
+  'Technical Theatre & Production': {'CC-AM':3},
+  'Visual Merchandising': {'CC-AM':3},
+  'AI Applications': {'CC-AM':4,'CW-CK':5},
+  'Business Information Systems': {'CE-SM':9},
+  'Cyber & Network Security': {'CC-AM':4,'CE-SM':7,'CW-CK':7},
+  'Data Engineering': {'CW-CK':8},
+  'Electronics Engineering': {'CC-AM':8,'CE-SM':17,'CW-CK':16},
+  'Immersive Applications & Game': {'CC-AM':3},
+  'Integrated Mechanical & Electrical Design': {'CE-SM':15},
+  'IT Applications Development': {'CC-AM':5,'CE-SM':11,'CW-CK':13},
+  'IT Systems & Networks': {'CC-AM':6,'CE-SM':15,'CW-CK':11},
+  'Operational & Information Technology': {'CW-CK':11},
+  'Security System Integration': {'CE-SM':9,'CW-CK':12},
+  'Advanced Manufacturing': {'CC-AM':null},
+  'Aerospace Engineering': {'CC-AM':null},
+  'Applied Food Science': {'CE-SM':7},
+  'Architectural Technology': {'CE-SM':4},
+  'Automotive Engineering': {'CW-CK':null},
+  'Bio-Chemical Technology': {'CE-SM':3},
+  'Chemical Process Technology': {'CE-SM':11},
+  'Civil & Structural Engineering Design': {'CE-SM':6},
+  'Electrical Engineering': {'CE-SM':16,'CW-CK':11},
+  'Facilities Management & Engineering': {'CE-SM':15,'CW-CK':12},
+  'Landscape Management & Design': {'CE-SM':9},
+  'Marine & Offshore Engineering': {'CC-AM':null},
+  'Mechanical Engineering': {'CC-AM':null,'CE-SM':null,'CW-CK':null},
+  'Mechatronics Engineering': {'CC-AM':null,'CW-CK':null},
+  'Rapid Transit Engineering': {'CW-CK':null},
+  'Vertical Transportation': {'CE-SM':13},
+  'Culinary Arts': {'CW-CK':6},
+  'Hospitality Operations': {'CW-CK':6},
+  'Pastry & Baking': {'CW-CK':3},
+};
+
+const CAMPUS_LABEL = {'CC-AM':'Central','CE-SM':'East','CW-CK':'West'};
+
+const SL={health:'Health Sciences',biz:'Business & Services',design:'Design & Media',ict:'Electronics & ICT',eng:'Engineering',hosp:'Hospitality'};
+
+// ══════════════════════════════════════════════════════════════
+// COURSES
+// ══════════════════════════════════════════════════════════════
+const COURSES=[
+  {name:'Higher Nitec in Community Care & Social Services',short:'Community Care & Social Services',school:'health',new:false,campuses:["ITE College East"],tagline:'Support the elderly and vulnerable through rehabilitation, assisted living, special needs care and community activities.',keywords:["Assist clients with activities of daily living","Perform clinical procedures based on clients' / residents' needs, under supervision of trained staff","Assist clients with mobility","Support trained staff in rehabilitation programmes, care and counselling of clients","Support trained staff in the activities of daily living (ADL) training","Organise and facilitate activities and events for clients/ residents and their families","Support trained staff in conducting routine home visits","Support the daily operations of the centre/ home","Support trained staff in emergency situations"],jobs:["Social Service Assistant","Programme Assistant","Assistant Welfare Officer"],notes:["Medical check-up required"],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-community-care-and-social-services-3-year'},
+  {name:'Higher Nitec in Nursing',short:'Nursing',school:'health',new:false,campuses:["ITE College East"],tagline:'Become an Enrolled Nurse. Provide direct patient care and work as part of a healthcare team.',keywords:["Perform nursing care in accordance with legislation, policies and procedural guidelines","Participate in the development, implementation and evaluation of planned nursing care with supervision by the RN","Foundational clinical practice including venepuncture, cannulation, intramuscular injection, wound management","Use data gathering techniques including observation, interview and physical examination to assess client","Communicate clearly through verbal/non-verbal, written and electronic means with clients, families and healthcare professionals","Conduct educational needs assessment and provide health education to clients"],jobs:["Enrolled Nurse"],notes:["Full vaccination required","Medical check-up required"],n_req:'English + Maths + 1 other',url:'higher-nitec-in-nursing-3-year'},
+  {name:'Higher Nitec in Opticianry',short:'Opticianry',school:'health',new:false,campuses:["ITE College East"],tagline:'Help people see better. Test eyesight, dispense optical aids and maintain ophthalmic equipment.',keywords:["Perform administrative duties in ophthalmic practice","Provide customer service in ophthalmic practice","Test client eyesight","Prepare work orders for optical laboratory","Perform lens edging","Dispense optical aids","Maintain ophthalmic equipment"],jobs:["Dispensing Optician","Refraction Optician"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-opticianry-3-year'},
+  {name:'Higher Nitec in Accounting',short:'Accounting',school:'biz',new:false,campuses:["ITE College Central","ITE College East","ITE College West"],tagline:'Understand business through numbers. Prepare financial statements, cost accounts and use accounting software.',keywords:["Handle receivables/payables","Maintain inventory records","Maintain Property, Plant & Equipment (PPE) / Capital Expenditure (CE) register","Prepare financial accounting reporting activities","Prepare corporate accounting reporting activities","Prepare cost statement"],jobs:["Accounts Assistant","Accounts Associate","Finance Assistant"],notes:[],n_req:'English + 2 others',url:'higher-nitec-in-accounting-3-year'},
+  {name:'Higher Nitec in Beauty & Wellness Management',short:'Beauty & Wellness Management',school:'biz',new:false,campuses:["ITE College East"],tagline:'Gain skills in makeup, skincare, beauty treatments and salon operations.',keywords:["Conduct client consultation","Provide customer service","Provide skincare treatment","Provide makeup service","Provide nail service","Provide spa manicure and pedicure treatment","Prepare simple cosmetic products","Provide electrotherapy treatment","Provide body treatment","Blend essential oils","Handle daily operation of a beauty/wellness establishment","Promote products and services at salon and on social media platforms","Provide shampoo & head massage","Provide basic haircolouring","Provide blow-dry & styling"],jobs:["Beauty Therapist","Spa Therapist","Wellness Consultant"],notes:["Medical check-up required"],n_req:'3 N-level passes',url:'higher-nitec-in-beauty-and-wellness-management-3-year'},
+  {name:'Higher Nitec in Business Administration',short:'Business Administration',school:'biz',new:false,campuses:["ITE College Central","ITE College East","ITE College West"],tagline:'Gain skills in HR, customer service, digital marketing and business administration.',keywords:["Handle talent acquisition and related activities","Coordinate onboarding and offboarding activities","Handle compensation and benefits administration","Organise employee learning and well-being programmes","Provide workplace administrative support","Perform frontline customer service using digital channels","Provide after-sales care and advice","Create awareness of product and service","Provide efficient and quality customer service","Perform digital marketing activity such as updating websites and social media accounts","Track status of customer applications for products and services"],jobs:["Administrative Assistant","HR Associate","Customer Service Executive"],notes:[],n_req:'English + 2 others',url:'higher-nitec-in-business-administration-3-year'},
+  {name:'Higher Nitec in Customer Experience',short:'Customer Experience',school:'biz',new:false,campuses:["ITE College West"],tagline:'Design customer journeys using digital marketing, data analytics, service innovation and consumer behaviour.',keywords:["Resolve customer feedback and dissatisfaction","Interpret customer cognitive processes","Perform data analytics","Manage digital platforms","Manage customer leads","Provide support for marketing campaign activities","Conduct market sensing","Handle channel sales","Implement service marketing activities","Redesign services and operations","Evaluate service experience and quality"],jobs:["Customer Experience Officer","Customer Support Specialist"],notes:[],n_req:'English + 2 others',url:'higher-nitec-in-customer-experience-3-year'},
+  {name:'Higher Nitec in Event Management',short:'Event Management',school:'biz',new:false,campuses:["ITE College Central"],tagline:'Plan and manage MICE and special events. Learn sustainability, digital event tools and analytics.',keywords:["Coordinate project requirements detailed in the project plan","Support and manage delegates/attendees for a positive event experience","Handle the execution of multiple activities in project plans","Make independent incremental improvements on the steps to execute project plans","Handle event logistics on administrative support, onsite coordination and site inspections"],jobs:["Events Coordinator","Project Executive"],notes:[],n_req:'English + 2 others',url:'higher-nitec-in-event-management-3-year'},
+  {name:'Higher Nitec in Hairdressing & Salon Management',short:'Hairdressing & Salon Management',school:'biz',new:false,campuses:["ITE College East"],tagline:'Learn haircutting, colouring, styling and salon operations. Build a career in the beauty industry.',keywords:["Handle salon operations","Provide shampoo and head massage","Provide hairstyling","Provide haircuts","Provide hair perming and hair rebonding services","Provide haircolouring services","Provide hair and scalp treatments","Provide customer service","Provide client consultation","Provide basic makeup","Provide basic nailcare","Provide basic facial treatment"],jobs:["Junior Stylist","Hair Care Therapist"],notes:[],n_req:'3 N-level passes',url:'higher-nitec-in-hairdressing-and-salon-management-3-year'},
+  {name:'Higher Nitec in Logistics & Supply Chain Management',short:'Logistics & Supply Chain Management',school:'biz',new:false,campuses:["ITE College East"],tagline:'Organise warehouse operations, handle shipping documents and manage deliveries including green logistics.',keywords:["Perform inbound and outbound warehouse tasks","Perform import and export documentation administration","Provide support for supply chain activities","Perform warehouse inventory management","Arrange transport of goods","Perform circular logistics","Handle material handling equipment","Provide urban logistics services","Perform cold chain logistics","Coordinate dangerous goods transportation","Provide customer service and customer solutions"],jobs:["Logistics Coordinator","Warehouse Coordinator"],notes:[],n_req:'3 N-level passes',url:'higher-nitec-in-logistics-and-supply-chain-management-3-year'},
+  {name:'Higher Nitec in Passenger Services',short:'Passenger Services',school:'biz',new:false,campuses:["ITE College Central","ITE College East"],tagline:'Prepare for a career at airports or cruise centres. Handle check-in, passenger assistance and crisis management.',keywords:["Check-in passengers","Provide meet-and-assist services","Handle arrival and departure of passengers","Handle passenger enquiries","Manage non-routine situations and conflicts","Identify workplace safety and security issues","Perform dangerous goods acceptance"],jobs:["Passenger Service Agent","Customer Service Officer"],notes:[],n_req:'English + 2 others',url:'higher-nitec-in-passenger-services-3-year'},
+  {name:'Higher Nitec in Retail & Online Business',short:'Retail & Online Business',school:'biz',new:false,campuses:["ITE College Central","ITE College East","ITE College West"],tagline:'Learn retail operations, e-commerce, digital content, merchandising and supply chain.',keywords:["Promote products and services through face-to-face, online and live streaming modes","Provide customer service","Perform cashiering","Handle merchandise","Manage stock inventory","Arrange display of merchandise","Perform marketing and sales promotions activities","Assist in the buying process","Assist in supply chain operations","Provide immersive retail experience","Create digital content for e-commerce","Coordinate e-commerce operations","Perform retail analytics","Implement sustainability measures"],jobs:["Marketing Executive","E-commerce Executive","Retail Merchandiser"],notes:[],n_req:'3 N-level passes',url:'higher-nitec-in-retail-and-online-business-3-year'},
+  {name:'Higher Nitec in Sport Management',short:'Sport Management',school:'biz',new:false,campuses:["ITE College Central","ITE College East","ITE College West"],tagline:'Turn your passion for sports into a career. Plan events, design fitness programmes and manage sports facilities.',keywords:["Organise sports events","Carry out community recreation and activity programmes","Perform fitness testing and programme design","Assist the coach","Implement sport safety prevention and management","Conduct group exercise class","Provide quality customer service to participants and clients of gyms, country clubs and other fitness and sports clubs","Carry out routine finance and general administration matters for management of sports activities"],jobs:["Sports & Fitness Executive","Sports Event Coordinator"],notes:["Medical check-up required"],n_req:'English + 2 others',url:'higher-nitec-in-sport-management-3-year'},
+  {name:'Higher Nitec in Tourism',short:'Tourism',school:'biz',new:false,campuses:["ITE College West"],tagline:"Manage attraction operations, plan travel services and coordinate tours for Singapore's tourism industry.",keywords:["Handle travellers' / guests' / visitors' queries","Provide customer service","Plan and coordinate events logistics","Provide tour / attraction commentaries","Plan and promote tour packages","Make tour and travel arrangements","Handle tour reservations and ticketing","Conduct post-tour follow up","Propose travel activities","Manage visitors at an attraction","Handle ride operations, queue and crowd control","Ensure safety and security of guests","Manage ticketing and reservations","Promote membership and loyalty programmes","Coordinate facilities and services for guests at a resort"],jobs:["Tour Consultant","Attractions Host","Guest Services Assistant"],notes:[],n_req:'English + 2 others',url:'higher-nitec-in-tourism-3-year'},
+  {name:'Higher Nitec in Communication Design',short:'Communication Design',school:'design',new:false,campuses:["ITE College Central"],tagline:'Create graphic design, web and multimedia content. Specialise in Graphic Design or Animation & Motion Graphics.',keywords:["Produce graphical assets","Produce digital media","Perform digital photography","Conceptualise interface design","Create brand applications","Perform non-linear editing","Develop 2-D assets","Develop 3D assets","Create animation","Perform compositing","Perform real-time animation with Unreal Engine"],jobs:["Graphic Designer","Illustrator","Junior CG Artist"],notes:["Colour vision test required"],n_req:'3 N-level passes',url:'higher-nitec-in-communication-design-3-year'},
+  {name:'Higher Nitec in Film & Video Production',short:'Film & Video Production',school:'design',new:false,campuses:["ITE College Central"],tagline:'Gain skills in filming, editing and post-production. Work on creative projects with cutting-edge technology.',keywords:["Evaluate storytelling elements","Perform pre-production","Perform camera operation","Perform camera assisting","Perform camera movement","Perform lighting setups","Perform multi-camera production","Perform sound recording and post","Perform post-production"],jobs:["Camera Operator","Camera Assistant","Focus Puller"],notes:["Colour vision test required"],n_req:'3 N-level passes',url:'higher-nitec-in-film-and-video-production-3-year'},
+  {name:'Higher Nitec in Interior & Product Design',short:'Interior & Product Design',school:'design',new:false,campuses:["ITE College Central"],tagline:'Design interior spaces and products. Create space plans, design proposals and fabricate models.',keywords:["Produce Design Drawings","Produce Interior Space Modelling","Develop Interior Space Planning & Design Proposal","Generate Interior Construction and Furnishing","Conduct design & material research","Fabricate models"],jobs:["Technical Executive","CAD Designer"],notes:["Colour vision test required"],n_req:'3 N-level passes',url:'higher-nitec-in-interior-and-product-design-3-year'},
+  {name:'Higher Nitec in Technical Theatre & Production',short:'Technical Theatre & Production',school:'design',new:false,campuses:["ITE College Central"],tagline:'Master lighting, sound and stagecraft. Work on real productions and manage technical elements of live performances.',keywords:["Manage the production schedule & production budget","Manage performance production resources","Manage backstage duties","Making notation of performances","Assist in risk assessment duties","Operate and maintain lighting system","Operate and maintain sound system","Operate and maintain multimedia system","Operate staging system","Create stage setting"],jobs:["Assistant Stage Manager","Lighting and Sound Crew","Event Technician"],notes:["Colour vision test required"],n_req:'3 N-level passes',url:'higher-nitec-in-technical-theatre-and-production-3-year'},
+  {name:'Higher Nitec in Visual Merchandising',short:'Visual Merchandising',school:'design',new:false,campuses:["ITE College Central"],tagline:"Design eye-catching window displays and in-store setups that attract customers and boost sales.",keywords:["Stay updated with the latest retail trends to keep displays fresh and aligned with the store's image","Develop a clear plan for your visual displays","Create stunning display environments using materials like acrylic, metal and fabric","Design effective signage and graphics to support your displays","Make props that enhance your visual storytelling","Keep retail displays well-maintained and appealing"],jobs:["Visual Merchandiser","Window Display Artist","Retail Stylist"],notes:["Colour vision test required"],n_req:'3 N-level passes',url:'higher-nitec-in-visual-merchandising-3-year'},
+  {name:'Higher Nitec in AI Applications',short:'AI Applications',school:'ict',new:false,campuses:["ITE College Central","ITE College West"],tagline:'Assist AI Engineers in turning business needs into AI tasks. Prepare data and develop AI solutions ethically.',keywords:["Perform data preparation","Develop AI solutions","Perform project management"],jobs:["Associate AI Engineer","AI Specialist","AI Technician"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-ai-applications-3-year'},
+  {name:'Higher Nitec in Business Information Systems',short:'Business Information Systems',school:'ict',new:false,campuses:["ITE College East"],tagline:'Support business information systems on computers, networks and servers in modern IT environments.',keywords:["Manage computer systems and devices","Manage computer network","Support networked servers","Assist to manage virtualisation infrastructure","Support database management system","Assist support of business application development","Support and implement enterprise solutions"],jobs:["IT Technical Support Specialist","Web Developer","Associate System Administrator","ERP Support Engineer"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-business-information-systems-3-year'},
+  {name:'Higher Nitec in Cyber & Network Security',short:'Cyber & Network Security',school:'ict',new:false,campuses:["ITE College Central","ITE College East","ITE College West"],tagline:'Protect networks from cyber-attacks. Manage security infrastructure and perform vulnerability assessments.',keywords:["Manage end-user computer systems and devices","Manage computer network","Support networked servers","Assist to manage virtualisation infrastructure","Manage security infrastructure","Perform vulnerability assessment","Perform cyber security operations"],jobs:["Cyber Security Associate","IT Security Specialist","Network Security Specialist","Systems and Security Administrator"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-cyber-and-network-security-3-year'},
+  {name:'Higher Nitec in Data Engineering',short:'Data Engineering',school:'ict',new:false,campuses:["ITE College West"],tagline:'Extract, clean and process data. Perform data visualisation and manage databases for business insights.',keywords:["Extract data","Perform data cleansing","Perform data processing","Perform data visualization","Manage databases"],jobs:["Associate Data Engineer","Associate Data Analyst","Data Technician"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-data-engineering-3-year'},
+  {name:'Higher Nitec in Electronics Engineering',short:'Electronics Engineering',school:'ict',new:false,campuses:["ITE College Central","ITE College East","ITE College West"],tagline:'Set up, maintain and troubleshoot electronic systems. Work with IoT, AI deployment and automation.',keywords:["Set up, maintain and troubleshoot electronic systems and modules","Perform functional, operational and life tests on electronic equipment and systems","Optimise electronic systems by adjusting, calibrating and modifying circuitry","Deploy programmable controller-based system for applications","Set up and interface computer networks and devices","Develop electronic prototypes for testing and applications","Install, integrate, service, maintain and commission audio visual devices and systems","Support Internet-of-Things (IoT) architecture platform","Programme microcontroller-based systems","Set up, maintain and service automation systems","Deploy AI solutions"],jobs:["Engineering Assistant","IoT Assistant Engineer","Junior Robotics Engineer"],notes:["Colour vision test required"],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-electronics-engineering-3-year'},
+  {name:'Higher Nitec in Immersive Applications & Game',short:'Immersive Applications & Game',school:'ict',new:false,campuses:["ITE College Central"],tagline:'Create apps and games for retail, education and entertainment. Learn gamification and AR/VR programming.',keywords:["Participate in the game design process","Develop game programme code","Design game levels","Create immersive experiences (AR/VR)","Perform game integration and testing"],jobs:["Junior Programmer","Interactive Content Developer"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-immersive-applications-and-game-3-year'},
+  {name:'Higher Nitec in IT Applications Development',short:'IT Applications Development',school:'ict',new:false,campuses:["ITE College Central","ITE College East","ITE College West"],tagline:'Build web and mobile apps to solve real-world problems. Design UI/UX and perform software testing.',keywords:["Design UI/UX","Develop and support web applications","Develop and support mobile applications","Create and maintain content","Perform software testing"],jobs:["Application Developer","Software Developer","UI/UX Designer"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-it-applications-development-3-year'},
+  {name:'Higher Nitec in IT Systems & Networks',short:'IT Systems & Networks',school:'ict',new:false,campuses:["ITE College Central","ITE College East","ITE College West"],tagline:'Set up, maintain and troubleshoot computers, networks and servers. Secure wireless networks and support IT projects.',keywords:["Manage computer systems and devices","Manage computer network","Support networked servers","Assist to manage virtualisation infrastructure","Implement wireless LAN","Implement network security","Assist support of IT project development"],jobs:["IT Specialist","Network Support Specialist","Associate System Administrator"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-it-systems-and-networks-3-year'},
+  {name:'Higher Nitec in Operational & Information Technology',short:'Operational & Information Technology',school:'ict',new:false,campuses:["ITE College West"],tagline:'Manage and integrate OT and IT networks in hybrid environments. Secure industrial control systems.',keywords:["Support Network Infrastructure","Support IT/OT Server","Support Virtualisation Hosts","Support OT Supervisory Control System","Manage Security Infrastructure for IT/OT Systems","Support Cyber Security Incident Management","Support System Integration"],jobs:["Associate Systems Support Engineer","IT/OT Engineer"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-operational-and-information-technology-3-year'},
+  {name:'Higher Nitec in Security System Integration',short:'Security System Integration',school:'ict',new:false,campuses:["ITE College East","ITE College West"],tagline:'Install, integrate and manage security systems — CCTV, access control and alarm systems.',keywords:["Set up wired and wireless networks to accommodate IP-ready security systems","Set up backend security network infrastructure to support security systems","Troubleshoot and maintain security systems","Design and implement security system solutions to meet client's requirements","Manage security system installation projects","Integrate and implement centralised security management system"],jobs:["Technical Specialist","Security Systems Specialist"],notes:["Colour vision test required"],n_req:'3 N-level passes',url:'higher-nitec-in-security-system-integration-3-year'},
+  {name:'Higher Nitec in Advanced Manufacturing',short:'Advanced Manufacturing',school:'eng',new:true,campuses:["ITE College Central"],tagline:'Develop CNC programs, apply robotics and additive manufacturing in aerospace, oil & gas and semi-conductor industries.',keywords:["Create CNC part programmes","Set up and produce machine parts for aerospace, oil & gas and semi-conductor industry","Perform advanced manufacturing techniques, including additive manufacturing, automation and robotics","Perform forming techniques","Perform routine and preventive maintenance on machines","Perform quality checks, lean manufacturing and sustainable engineering approaches"],jobs:["Technical Specialist"],notes:["Colour vision test required"],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-advanced-manufacturing-3-year'},
+  {name:'Higher Nitec in Aerospace Engineering',short:'Aerospace Engineering',school:'eng',new:true,campuses:["ITE College Central"],tagline:'Keep aircraft airworthy. Learn maintenance, avionics, structure and propulsion systems for the aerospace industry.',keywords:["Perform aviation maintenance & safety practices","Apply human factor & air legislations","Perform aircraft material maintenance","Maintain aircraft electrical system","Perform aircraft/engine inspection","Maintain aircraft structure","Maintain aircraft system","Maintain aircraft avionics system","Maintain propulsion system","Maintain aircraft electronic system"],jobs:["Aircraft Technician","Aircraft Maintenance Technician","Aircraft Engine Technician","Aircraft Structural Repair Technician"],notes:["Colour vision test required"],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-aerospace-engineering-3-year'},
+  {name:'Higher Nitec in Applied Food Science',short:'Applied Food Science',school:'eng',new:false,campuses:["ITE College East"],tagline:'Develop, analyse, process, package and serve food products while meeting strict regulatory requirements.',keywords:["Maintain occupational health and safety at workplace","Perform basic measurements and calibration techniques in the laboratory","Conduct physical and chemical checks / tests","Perform microbial analysis","Maintain safety, hygiene and quality standards in food industries","Conduct laboratory test / analysis for test samples","Operate and maintain food processing equipment","Apply advanced food preservation and processing methods / technologies","Maintain nutritional quality of food products","Carry out food product design, development and marketing"],jobs:["Food Technician","Food Production Technician"],notes:["Colour vision test required"],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-applied-food-science-3-year'},
+  {name:'Higher Nitec in Architectural Technology',short:'Architectural Technology',school:'eng',new:false,campuses:["ITE College East"],tagline:'Learn building design, create detailed plans and use BIM to shape the built environment.',keywords:["Produce spatial drawings","Produce Building CAD Drawings","Develop architectural project proposal","Execute architectural design and submission processes","Produce architectural detail and tender drawings","Develop architectural design for construction","Construct architectural BIM model","Perform BIM coordination for architectural design","Apply Green Mark and Universal Design requirements"],jobs:["Architectural Technical Executive","BIM Design Coordinator"],notes:["Colour vision test required"],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-architectural-technology-3-year'},
+  {name:'Higher Nitec in Automotive Engineering',short:'Automotive Engineering',school:'eng',new:true,campuses:["ITE College West"],tagline:'Diagnose and service modern vehicles with advanced computer networks for performance, efficiency and safety.',keywords:["Perform engine systems diagnostics","Perform electrical systems diagnostics","Perform chassis diagnostics","Perform driveline diagnostics"],jobs:["Senior Technician","Customer Service Executive","Senior Vehicle Inspector"],notes:["Colour vision test required"],n_req:'3 N-level passes',url:'higher-nitec-in-automotive-engineering-3-year'},
+  {name:'Higher Nitec in Bio-Chemical Technology',short:'Bio-Chemical Technology',school:'eng',new:false,campuses:["ITE College East"],tagline:'Perform chemical, biochemical and microbial tests using advanced laboratory instruments.',keywords:["Maintain occupational health and safety at workplace","Perform pre-testing activities and sampling","Perform analysis of test samples","Perform microbial tests","Perform biomolecule analytical tests","Analyse test samples using spectroscopic techniques","Analyse test samples using chromatographic techniques","Report analysis and test results","Maintain laboratory documentation and quality standards"],jobs:["Laboratory Technician","Laboratory Assistant"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-bio-chemical-technology-3-year'},
+  {name:'Higher Nitec in Chemical Process Technology',short:'Chemical Process Technology',school:'eng',new:false,campuses:["ITE College East"],tagline:'Operate and monitor chemical processes. Prepare for a career in bio-pharma and petrochemical industries.',keywords:["Maintain health, safety, security, environment & quality standards","Perform process equipment operation","Perform process operations","Monitor process conditions","Perform separation and transfer processes","Perform simulated control panel operation","Perform pharmaceutical operations","Perform biologics operations","Perform cleanroom operations and practices","Perform product quality testing","Maintain and monitor critical utilities"],jobs:["Process Technician","Plant Technician","Operation Technician"],notes:["Colour vision test required"],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-chemical-process-technology-3-year'},
+  {name:'Higher Nitec in Civil & Structural Engineering Design',short:'Civil & Structural Engineering Design',school:'eng',new:false,campuses:["ITE College East"],tagline:'Prepare civil and structural drawings. Work at the intersection of engineering and construction.',keywords:["Prepare civil and structural layout plans","Prepare civil and structural components' schedule and details","Prepare civil and structural detailed drawings","Prepare shop drawings for construction","Liaise with engineers to resolve discrepancies and site problems"],jobs:["Civil & Structural Draftsman","Technical Officer","CAD Designer"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-civil-and-structural-engineering-design-3-year'},
+  {name:'Higher Nitec in Electrical Engineering',short:'Electrical Engineering',school:'eng',new:false,campuses:["ITE College East","ITE College West"],tagline:'Master sustainable energy, smart building systems or lighting and sound for live events.',keywords:["Ensure electrical works comply with drawings, specifications and regulations","Manage maintenance of electrical motor installation and control systems","Manage maintenance of electrical installations and intelligent control systems","Manage operation of smart home, intelligent building control and remote monitoring systems","Manage operation and maintenance of solar photovoltaic system and EV charging station","Liaise with clients on requirements of lighting, sound and visual media systems","Set up, install, test, operate and maintain lighting, sound and visual media systems","Implement on-site safety programmes for events and performances"],jobs:["Electrical Engineering Technician","Electrical Power Technician","Instrumentation Technician"],notes:[],n_req:'3 N-level passes',url:'higher-nitec-in-electrical-engineering-3-year'},
+  {name:'Higher Nitec in Facilities Management & Engineering',short:'Facilities Management & Engineering',school:'eng',new:false,campuses:["ITE College East","ITE College West"],tagline:'Manage key facilities like airports and hospitals. Gain skills in building systems, IoT and sustainability.',keywords:["Supervise building construction and facilities maintenance activities, including various systems and services","Oversee fire safety tasks for secure building operations","Manage subordinates for construction and facility tasks","Perform necessary construction and facilities maintenance duties"],jobs:["Site Supervisor","Facility Officer","Facility Technical Officer"],notes:["Colour vision test required"],n_req:'3 N-level passes',url:'higher-nitec-in-facilities-management-and-engineering-3-year'},
+  {name:'Higher Nitec in Integrated Mechanical & Electrical Design',short:'Integrated Mechanical & Electrical Design',school:'eng',new:false,campuses:["ITE College East"],tagline:'Design M&E building systems using BIM and AutoCAD. Make buildings smart and efficient.',keywords:["Air-conditioning and ventilation systems","Electrical installation and control systems","Fire protection and fighting systems","Water supply and sanitary systems"],jobs:["Facility Systems CADD Specialist","M&E Draughtsman"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-integrated-mechanical-and-electrical-design-3-year'},
+  {name:'Higher Nitec in Landscape Management & Design',short:'Landscape Management & Design',school:'eng',new:false,campuses:["ITE College East"],tagline:'Use smart tools for park design, horticulture, maintenance and sustainability. Collaborate with NParks.',keywords:["Supervise propagation of plants, undertake nursery operations, and maintain nursery plants and facilities","Supervise installation and maintenance of skyrise greenery and green infrastructure","Assist in supervising arboriculture operations and maintain tree health and safety","Perform scheduling and implement maintenance plans for turf park areas","Organise, coordinate and oversee landscape implementation and maintenance works","Interpret, prepare and present landscape design drawings","Supervise undertaking of plant health care programs"],jobs:["Assistant Landscape Supervisor","Landscape Specialist"],notes:[],n_req:'3 N-level passes',url:'higher-nitec-in-landscape-management-and-design-3-year'},
+  {name:'Higher Nitec in Marine & Offshore Engineering',short:'Marine & Offshore Engineering',school:'eng',new:true,campuses:["ITE College Central"],tagline:'Learn how ships and offshore structures are designed, built and maintained using Industry 4.0 technologies.',keywords:["Perform quality control checks","Fabricate marine pipes and structures","Perform maintenance of ship control systems","Troubleshoot faults in marine propulsion and auxiliary systems","Service components of marine systems","Perform marine piping and structural design","Perform marine electrical and HVAC systems design","Produce basic naval architecture drawings and reports","Perform commissioning of marine system","Deploy I4.0 technologies in marine system","Implement sustainability measures"],jobs:["Assistant Marine Supervisor","Marine Engineering Technician"],notes:[],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-marine-and-offshore-engineering-3-year'},
+  {name:'Higher Nitec in Mechanical Engineering',short:'Mechanical Engineering',school:'eng',new:true,campuses:["ITE College Central","ITE College East","ITE College West"],tagline:'Optimise machines, support design, robotics, automation and quality assurance in manufacturing.',keywords:["Set up machines, equipment and systems","Provide support in product improvements","Conduct quality assurance functions on products and systems","Perform fault diagnosis and maintenance of instrumentation and control equipment","Perform sub-system and PLC integration","Perform support functions in engineering design and development"],jobs:["Engineering Assistant","Mechanical Engineering Technician","Maintenance Supervisor","Quality Assurance Technician"],notes:[],n_req:'3 N-level passes',url:'higher-nitec-in-mechanical-engineering-3-year'},
+  {name:'Higher Nitec in Mechatronics Engineering',short:'Mechatronics Engineering',school:'eng',new:true,campuses:["ITE College Central","ITE College West"],tagline:'Work with robotics, automation, PLCs and driverless systems. Turn ideas into real-world inventions.',keywords:["Create engineering drawing / model","Configure support for mechanical modules","Set up control systems","Set up pneumatics system","Set up microcontroller system","Set up Programmable Logic Controller (PLC)","Set up automated system","Set up robot"],jobs:["Automation Technician","Mechatronics Technician","Plant Maintenance Technician"],notes:["Colour vision test required"],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-mechatronics-engineering-3-year'},
+  {name:'Higher Nitec in Rapid Transit Engineering',short:'Rapid Transit Engineering',school:'eng',new:true,campuses:["ITE College West"],tagline:"Keep Singapore's MRT running smoothly. Train with SMRT experts in rail systems, communications and signalling.",keywords:["Maintain rapid transit communication systems","Maintain rapid transit signalling systems"],jobs:["Rapid Transit Technical Officer"],notes:["Colour vision test required"],n_req:'Maths/Science + 2 others',url:'higher-nitec-in-rapid-transit-engineering-3-year'},
+  {name:'Higher Nitec in Vertical Transportation',short:'Vertical Transportation',school:'eng',new:false,campuses:["ITE College East"],tagline:'Become a BCA-recognised Lift & Escalator Specialist. Diagnose, maintain and commission vertical transport systems.',keywords:["Maintain and replace lift and escalator equipment","Perform lift and escalator maintenance works","Diagnose and troubleshoot defects and faults in lift and escalator installations, including performing lift rescue operations","Repair/replace faulty components and recommission lifts and escalators","Assist lift engineer in the installation, testing, adjustment and commissioning of lift and escalator systems","Assist lift/escalator inspector in the inspection of lift and escalator systems and equipment"],jobs:["Lift/Escalator Specialist","Senior Lift/Escalator Specialist"],notes:["Colour vision test required"],n_req:'3 N-level passes',url:'higher-nitec-in-vertical-transportation-3-year'},
+  {name:'Higher Nitec in Culinary Arts',short:'Culinary Arts',school:'hosp',new:false,campuses:["ITE College West"],tagline:'Master cooking with premium ingredients. Learn professional techniques and gain experience at top establishments.',keywords:["Prepare for operations","Process ingredients","Prepare a range of stocks, sauces and soups","Manage inventory and stores","Cook Asian and Western dishes using a variety of cooking techniques","Prepare a range of appetisers, snacks and desserts","Use advanced cooking techniques","Present cooked dishes","Use insights into the hospitality industry","Design menu"],jobs:["Senior Cook","Demi Chef"],notes:[],n_req:'3 N-level passes',url:'higher-nitec-in-culinary-arts-3-year'},
+  {name:'Higher Nitec in Hospitality Operations',short:'Hospitality Operations',school:'hosp',new:false,campuses:["ITE College West"],tagline:'Manage hotel front office, housekeeping, F&B service and events. Create great guest experiences.',keywords:["Handle guest room reservations","Handle guest arrival and departure","Provide guests services","Perform housekeeping services","Check cleanliness and set up of dining areas","Perform hosting functions","Take and serve food and beverage orders","Prepare alcoholic and non-alcoholic beverage","Prepare coffee beverages","Handle room service orders"],jobs:["Front Office Executive","Guest Relations Executive","F&B Captain","Barista"],notes:[],n_req:'English + 2 others',url:'higher-nitec-in-hospitality-operations-3-year'},
+  {name:'Higher Nitec in Pastry & Baking',short:'Pastry & Baking',school:'hosp',new:false,campuses:["ITE College West"],tagline:'Make cakes, pastries, breads and chocolate creations. Turn your passion into a sweet career.',keywords:["Prepare mise en place for pastry and baking","Process baking ingredients","Prepare a range of basic and artisanal breads","Prepare a range of sweet and savoury pastries","Prepare petit fours, chocolates, candies and confectionery","Prepare a range of cakes and carry out cake decorations","Prepare a range of hot, cold and frozen desserts","Apply food nutrition sensory analytics on pastry products","Display, evaluate and store finished products"],jobs:["Pastry Cook","Assistant Baker"],notes:[],n_req:'English + 2 others',url:'higher-nitec-in-pastry-and-baking-3-year'},
+];
+
+// ══════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════
+let selC=[],chatHist=[];
+const ccas=[],awards=[],others=[];
+const TABS=['profile','chat','pick','writeup','ach','export'];
+let wuHistory={};
+let gradeRows=[];
+
+// ══════════════════════════════════════════════════════════════
+// HOMEPAGE
+// ══════════════════════════════════════════════════════════════
+function startApp(){
+  document.getElementById('homepage').style.display='none';
+  document.getElementById('shell').style.display='block';
+}
+
+// ══════════════════════════════════════════════════════════════
+// MARKDOWN RENDERER
+// ══════════════════════════════════════════════════════════════
+function mdToHtml(t){
+  return t
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/`(.+?)`/g,'<code style="background:#f0f0f0;padding:1px 4px;border-radius:3px;font-size:11px">$1</code>')
+    .replace(/\n/g,'<br>');
+}
+
+// ══════════════════════════════════════════════════════════════
+// COP HELPER
+// ══════════════════════════════════════════════════════════════
+function copHtml(short, userAgg){
+  const campusMap={'CC-AM':'Central','CE-SM':'East','CW-CK':'West'};
+  const data=COP[short];
+  if(!data) return '';
+  const badges=Object.entries(data).map(([code,score])=>{
+    const label=campusMap[code]||code;
+    if(score===null) return `<span class="cop-badge cop-new">🆕 ${label}: New 2026 — no COP yet. EAE is your best shot at getting in early!</span>`;
+    let cls='cop-green'; let gapHtml='';
+    if(userAgg!==null){
+      const gap=userAgg-score;
+      if(gap<=0){
+        cls='cop-green';
+        gapHtml=` <span class="cop-gap cop-gap-ok">✓ You're ${Math.abs(gap)===0?'right at':''+Math.abs(gap)+' pts below'} COP — EAE gives you a chance to secure this before results!</span>`;
+      } else if(gap<=3){
+        cls='cop-amber';
+        gapHtml=` <span class="cop-gap cop-gap-close">${gap} pt${gap>1?'s':''} above COP — close! EAE lets you in on merit & interest, not just grades.</span>`;
+      } else {
+        cls='cop-red';
+        gapHtml=` <span class="cop-gap cop-gap-far">${gap} pts above COP — this is why EAE matters: your passion can get you in when grades alone might not.</span>`;
+      }
+    }
+    return `<span class="cop-badge ${cls}">2025 COP ${label}: ${score}${gapHtml}</span>`;
+  }).join('');
+  return `<div class="cop-row">${badges}</div>`;
+}
+
+function getUserAgg(){
+  const el=document.getElementById('agg-result');
+  if(!el||el.style.display==='none') return null;
+  const m=el.textContent.match(/(\d+)/);
+  return m?parseInt(m[1]):null;
+}
+
+// ══════════════════════════════════════════════════════════════
+// GRADE CALCULATOR
+// ══════════════════════════════════════════════════════════════
+function toggleCalc(){
+  const p=document.getElementById('calc-panel');
+  const t=document.querySelector('.calc-toggle');
+  const open=p.style.display==='block';
+  p.style.display=open?'none':'block';
+  t.textContent=(open?'▼ Show':'▲ Hide')+' calculator';
+  if(!open&&gradeRows.length===0) addGradeRow();
+}
+
+function renderCalc(){calcAgg();}
+
+const NT_PTS={'A':1,'B':2,'C':3,'D':4,'E':5,'U':5};
+const NA_PTS={'1':1,'2':1,'3':1,'4':2,'5':3,'6':4,'U':4};
+const OL_PTS={'A1':1,'A2':1,'B3':1,'B4':1,'C5':1,'C6':1,'D7':1,'E8':2,'F9':3};
+
+// ── Subject lists per stream ─────────────────────────────────
+const SUBJECTS={
+  NA:[
+    // Common
+    'English Language','Chinese','Malay','Tamil','Mathematics',
+    'Science (Physics, Chemistry)','Science (Physics, Biology)','Science (Chemistry, Biology)',
+    'Humanities (Social Studies, Geography)','Humanities (Social Studies, History)',
+    'Humanities (Social Studies, Literature in English)',
+    // Rest
+    'Additional Mathematics','Art','Bengali','Design and Technology','Geography',
+    'Gujarati','Hindi','History','Literature in English','Nutrition and Food Science',
+    'Panjabi','Principles of Accounts','Urdu'
+  ],
+  NT:[
+    // Common
+    'English Language T','Basic Chinese','Basic Malay','Basic Tamil','Mathematics T',
+    'Science T','Design and Technology T','Nutrition and Food Science',
+    // Rest
+    'Art T','Computer Applications','Elements of Business Skills',
+    'Mobile Robotics','Music','Retail Operations','Smart Electrical Technology'
+  ],
+  OL:[
+    // Common
+    'English Language','Chinese','Malay','Tamil','Mathematics','Additional Mathematics',
+    'Science (Physics, Chemistry)','Science (Physics, Biology)','Science (Chemistry, Biology)',
+    'Physics','Chemistry','Biology',
+    'Humanities (Social Studies, Geography)','Humanities (Social Studies, History)',
+    'Humanities (Social Studies, Literature in English)',
+    // Rest
+    'Arabic as a 3rd Language','Art','Bahasa Indonesia as a 3rd Language','Bengali',
+    'Biotechnology','Burmese','Business Studies','Chinese (Special Programme)','Chinese B',
+    'Computing','Design & Technology','Design Studies','Drama','Economics','Electronics',
+    'Exercise and Sports Science','French','Geography','German','Gujarati',
+    'Higher Art','Higher Chinese','Higher Malay','Higher Music','Higher Tamil',
+    'Hindi','History',
+    'Humanities (Social Studies, Literature in Chinese)',
+    'Humanities (Social Studies, Literature in Malay)',
+    'Humanities (Social Studies, Literature in Tamil)',
+    'Japanese','Literature in Chinese','Literature in English','Literature in Malay',
+    'Literature in Tamil','Malay (Special Programme)','Malay B','Music',
+    'Nutrition and Food Science','Panjabi','Principles of Accounts',
+    'Spanish','Tamil B','Thai','Urdu'
+  ]
+};
+
+// Subjects that count as Science for ITE eligibility
+const SCI_NA=['Science (Physics, Chemistry)','Science (Physics, Biology)','Science (Chemistry, Biology)'];
+const SCI_NT=['Science T','Mobile Robotics','Smart Electrical Technology'];
+const SCI_OL=['Science (Physics, Chemistry)','Science (Physics, Biology)','Science (Chemistry, Biology)','Physics','Chemistry','Biology'];
+
+function subjectOptions(stream){
+  const list=SUBJECTS[stream]||SUBJECTS.NA;
+  const commonCount={NA:11,NT:8,OL:15}[stream]||11;
+  return list.map((s,i)=>{
+    const divider=i===commonCount?'<option disabled>──────────────</option>':'';
+    return divider+`<option value="${s}">${s}</option>`;
+  }).join('');
+}
+
+function gradeOptions(stream){
+  if(stream==='NT') return '<option value="">Grade</option>'+['A','B','C','D','E/U'].map(g=>`<option value="${g==='E/U'?'E':g}">${g}</option>`).join('');
+  if(stream==='NA') return '<option value="">Grade</option>'+['1','2','3','4','5','6/U'].map(g=>`<option value="${g==='6/U'?'6':g}">${g}</option>`).join('');
+  if(stream==='OL') return '<option value="">Grade</option>'+['A1','A2','B3','B4','C5','C6','D7','E8','F9'].map(g=>`<option value="${g}">${g}</option>`).join('');
+  return '<option value="">Grade</option>';
+}
+
+function addGradeRow(){
+  const defaultStream=document.getElementById('stream').value||'NA';
+  const id='gr-'+Date.now();
+  gradeRows.push(id);
+  const container=document.getElementById('grade-rows');
+  const row=document.createElement('div');
+  row.id=id;
+  row.className='grade-row';
+  row.innerHTML=`
+    <select class="grade-stream" onchange="onRowStreamChange('${id}')" style="font-size:11px;padding:4px 6px">
+      <option value="NA"${defaultStream==='NA'?' selected':''}>N(A)</option>
+      <option value="NT"${defaultStream==='NT'?' selected':''}>N(T)</option>
+      <option value="OL"${defaultStream==='OL'?' selected':''}>O-Lvl</option>
+    </select>
+    <select class="grade-subj" onchange="calcAgg()" style="font-size:11px;padding:4px 6px">${subjectOptions(defaultStream)}</select>
+    <select class="grade-sel" onchange="calcAgg()" style="font-size:11px;padding:4px 6px">${gradeOptions(defaultStream)}</select>
+    <button class="btn grade-rm" style="font-size:11px;padding:4px 6px;color:#c62828" onclick="removeGradeRow('${id}')">✕</button>`;
+  container.appendChild(row);
+  calcAgg();
+}
+
+function onRowStreamChange(id){
+  const row=document.getElementById(id);
+  if(!row) return;
+  const st=row.querySelector('.grade-stream').value;
+  row.querySelector('.grade-subj').innerHTML=subjectOptions(st);
+  row.querySelector('.grade-sel').innerHTML=gradeOptions(st);
+  calcAgg();
+}
+
+function removeGradeRow(id){
+  gradeRows=gradeRows.filter(r=>r!==id);
+  const el=document.getElementById(id);
+  if(el) el.remove();
+  calcAgg();
+}
+
+function calcAgg(){
+  const ccaBonus=parseInt(document.getElementById('cca-grade').value)||0;
+  const rows=document.querySelectorAll('#grade-rows .grade-row');
+  const pts=[];
+  // Store subject data for eligibility checking
+  window._subjData=[];
+  rows.forEach(row=>{
+    const stSel=row.querySelector('.grade-stream');
+    const grSel=row.querySelector('.grade-sel');
+    const subSel=row.querySelector('.grade-subj');
+    if(!stSel||!grSel) return;
+    const rowStream=stSel.value;
+    const grade=grSel.value;
+    const subj=subSel?subSel.value:'';
+    let p=null;
+    if(rowStream==='NT') p=NT_PTS[grade]||null;
+    else if(rowStream==='NA') p=NA_PTS[grade]||null;
+    else if(rowStream==='OL') p=OL_PTS[grade]||null;
+    if(p!==null){
+      pts.push(p);
+    }
+    // Store subject for eligibility even if grade not yet valid
+    if(subj){
+      window._subjData.push({stream:rowStream,subject:subj,pts:p,grade:grade||''});
+    }
+  });
+  const el=document.getElementById('agg-result');
+  if(pts.length===0){el.style.display='none';return;}
+  pts.sort((a,b)=>a-b);
+  const best4=pts.slice(0,4);
+  const raw=best4.reduce((s,v)=>s+v,0);
+  const finalAgg=Math.max(0, raw-ccaBonus); // CCA bonus reduces score (lower=better)
+  el.style.display='block';
+  const subjectsTxt=pts.length>4?`(${pts.length} subjects entered, best 4 used)`:'';
+  el.innerHTML=`Your estimated JIE 'N' aggregate: <span style="font-size:18px">${finalAgg}</span> points ${subjectsTxt}<br><span style="font-size:11px;font-weight:400;opacity:.75">Based on ${best4.length} subjects${ccaBonus>0?` minus ${ccaBonus} CCA bonus pt${ccaBonus>1?'s':''}`:''} · Lower is better · EAE applicants are not subject to COP</span>`;
+  // Refresh list if open — updates eligibility badges too
+  if(document.getElementById('tab-pick').classList.contains('active')) renderList();
+  if(document.getElementById('tab-writeup').classList.contains('active')) renderWU();
+}
+
+// ══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function go(name){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  const i=TABS.indexOf(name);
+  document.querySelectorAll('.tab')[i].classList.add('active');
+  document.getElementById('pf').style.width=((i+1)/6*100)+'%';
+  if(name==='pick') renderList();
+  if(name==='writeup') renderWU();
+  if(name==='export') renderExport();
+  autoSilentSave();
+}
+
+// ══════════════════════════════════════════════════════════════
+// CLAUDE API
+// ══════════════════════════════════════════════════════════════
+async function callClaude(messages,system,maxTokens=500){
+  const r=await fetch('/api/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:MODEL,max_tokens:maxTokens,system,messages})
+  });
+  if(!r.ok) throw new Error('API error '+r.status);
+  const d=await r.json();
+  return d.content?.[0]?.text||'Could not generate a response.';
+}
+
+// ══════════════════════════════════════════════════════════════
+// CHAT
+// ══════════════════════════════════════════════════════════════
+async function sendChat(){
+  const inp=document.getElementById('chat-in');
+  const msg=inp.value.trim();if(!msg)return;
+  inp.value='';
+  addMsg(msg,'user');
+  document.getElementById('chat-chips').style.display='none';
+  chatHist.push({role:'user',content:msg});
+  const typing=addMsg('Thinking…','ai',true);
+  const level=document.getElementById('level').value||'secondary school student';
+  const stream=document.getElementById('stream').value||'';
+  const streamLabel={'NA':'Normal Academic','NT':'Normal Technical','OL':'Express / O-Level'}[stream]||stream;
+  const courseList=COURSES.map(c=>`- ${c.short} (${SL[c.school]}, ${c.campuses.map(x=>x.replace('ITE College ','')).join('/')})`).join('\n');
+  const sys=`You are a friendly ITE course advisor helping students explore the 49 Higher Nitec courses available through ITE EAE. Student: ${level}${streamLabel?' ('+streamLabel+')':''}.
+
+Your ONLY job is to help the student discover which courses match their interests, strengths and personality. You do NOT answer questions about the EAE application process, write-ups, deadlines, interviews or anything else — only course exploration and matching.
+
+If the student asks about anything other than choosing or exploring courses, politely redirect: "I'm here to help you find the right course! Tell me more about what you enjoy or are good at."
+
+Available courses:\n${courseList}
+
+When suggesting courses: always use the FULL course name starting with "Higher Nitec in..." (e.g. Higher Nitec in Culinary Arts, Higher Nitec in Cyber & Network Security). Name 2-4 specific options, explain briefly why each suits their interests, and describe what kind of work they would do. Use **bold** for course names only. Keep responses under 140 words, warm and encouraging. Always write in British English (e.g. organise not organize, programme not program, colour not color).`;
+  try{
+    const reply=await callClaude(chatHist,sys);
+    typing.remove();
+    addMsg(reply,'ai');
+    chatHist.push({role:'assistant',content:reply});
+  }catch(e){
+    typing.remove();
+    addMsg('Connection error. Please check your internet connection and try again.','ai');
+  }
+}
+
+function addMsg(text,type,isTyping=false){
+  const div=document.createElement('div');
+  div.className='msg msg-'+type;
+  if(isTyping){div.style.color='#999';div.style.fontStyle='italic';div.textContent=text;}
+  else if(type==='ai'){div.innerHTML=mdToHtml(text);}
+  else{div.textContent=text;}
+  const w=document.getElementById('chat-msgs');
+  w.appendChild(div);w.scrollTop=w.scrollHeight;
+  return div;
+}
+function chipSend(t){document.getElementById('chat-in').value=t;sendChat();}
+
+// ══════════════════════════════════════════════════════════════
+// COURSE LIST
+// ══════════════════════════════════════════════════════════════
+function cardCampusHtml(c, rank, selC){
+  if(rank && c.campuses.length>1){
+    const chosen=(selC.find(s=>s.name===c.name)||{}).chosenCampus||c.campuses[0];
+    const opts=c.campuses.map(p=>{
+      const sel=chosen===p?' selected':'';
+      return '<option value="'+p+'"'+sel+'>'+p+'</option>';
+    }).join('');
+    const safeName=c.name.replace(/"/g,'&quot;');
+    return '<select data-course="'+safeName+'" onchange="setCampus(this.dataset.course,this.value);event.stopPropagation()" onclick="event.stopPropagation()" style="font-size:11px;padding:2px 7px;border-radius:5px;border:1px solid #1976d2;background:#e3f2fd;color:#0d47a1;font-weight:600;margin-right:4px;cursor:pointer">'+opts+'</select>';
+  }
+  return c.campuses.map(p=>'<span class="stag s-'+c.school+'">'+p.replace('ITE College ','')+'</span>').join('');
+}
+
+
+// ── Eligibility checker ──────────────────────────────────────
+function checkEligibility(course){
+  const data=window._subjData||[];
+  if(data.length===0) return {status:'unknown',msg:'Enter your subjects in the Profile tab to check eligibility'};
+
+  // Pass grade rules per stream:
+  // N(A): grade stored as '1'-'5' = pass, '6' (6/U) = fail
+  // N(T): grade stored as 'A'-'D' = pass, 'E' (E/U) = fail
+  // O-level: grade stored as 'A1'-'E8' = pass (1-8), 'F9' = fail only
+  function isPass(d){
+    if(d.stream==='NA') return d.grade!==''&&d.grade!=='6';
+    if(d.stream==='NT') return d.grade!==''&&d.grade!=='E';
+    if(d.stream==='OL') return d.grade!==''&&d.grade!=='F9';
+    return false;
+  }
+
+  const passing=data.filter(d=>isPass(d));
+  const passingSubjs=passing.map(d=>d.subject);
+  const allSubjs=data.map(d=>d.subject);
+  const streams=data.map(d=>d.stream);
+  const hasNT=streams.includes('NT');
+  const hasOL=streams.includes('OL');
+
+  // O-level pathway: 2 GCE O-level grades 1-8 in ANY two subjects satisfies ALL n_req
+  // (per the brochure — OR 2 GCE O Grades Grade 1-8 in any two subjects)
+  const olPasses=passing.filter(d=>d.stream==='OL');
+  if(olPasses.length>=2){
+    return {status:'ok',msg:'✓ You meet the O-level pathway (2+ O-level passes at Grade 1–8)'};
+  }
+
+  // N-level pathway — check with PASSING grades only
+  function hasPassingSubj(names){
+    return names.some(n=>passingSubjs.includes(n));
+  }
+  function hasSubj(names){
+    return names.some(n=>allSubjs.includes(n));
+  }
+
+  const englishNames=['English Language','English Language T'];
+  const mathsNames=['Mathematics','Mathematics T','Additional Mathematics'];
+
+  const hasEnglishPass=hasPassingSubj(englishNames);
+  const hasMathsPass=hasPassingSubj(mathsNames);
+  const hasSciPass=passing.some(d=>
+    SCI_NA.includes(d.subject)||SCI_NT.includes(d.subject)||SCI_OL.includes(d.subject)
+  );
+  const hasMathsOrSciPass=hasMathsPass||hasSciPass;
+
+  // Also detect if subject is present but failed — for a better message
+  const hasEnglishButFail=hasSubj(englishNames)&&!hasEnglishPass;
+  const hasMathsButFail=hasSubj(mathsNames)&&!hasMathsPass;
+
+  const n=course.n_req;
+
+  if(n==='English + Maths + 1 other'){
+    if(hasEnglishPass&&hasMathsPass) return {status:'ok',msg:'✓ You meet the entry requirements (English + Maths passed)'};
+    const msgs=[];
+    if(hasEnglishButFail) msgs.push('English Language entered but grade is a fail — needs Grade 1–5 (N(A)) or A–D (N(T))');
+    else if(!hasEnglishPass) msgs.push('English Language with a passing grade not found');
+    if(hasMathsButFail) msgs.push('Mathematics entered but grade is a fail — needs Grade 1–5 (N(A)) or A–D (N(T))');
+    else if(!hasMathsPass) msgs.push('Mathematics with a passing grade not found');
+    return {status:'fail',msg:'✗ '+msgs.join(' · ')};
+  }
+
+  if(n==='English + 2 others'){
+    if(hasEnglishPass) return {status:'ok',msg:'✓ You meet the entry requirements (English Language passed)'};
+    if(hasEnglishButFail) return {status:'fail',msg:'✗ English Language entered but grade is a fail — needs Grade 1–5 (N(A)) or A–D (N(T))'};
+    return {status:'fail',msg:'✗ This course requires a passing grade in English Language'};
+  }
+
+  if(n==='Maths/Science + 2 others'){
+    if(hasMathsOrSciPass){
+      const via=hasMathsPass?'Mathematics':(hasSciPass&&hasNT?'N(T) Applied Subject (counts as Science)':'Science subject');
+      return {status:'ok',msg:`✓ You meet the entry requirements (${via} passed)`};
+    }
+    if(hasMathsButFail) return {status:'fail',msg:'✗ Mathematics entered but grade is a fail — needs Grade 1–5 (N(A)) or A–D (N(T))'};
+    const hint=hasNT?' Note: Mobile Robotics, Smart Electrical Technology and Science T also count as Science.':'';
+    return {status:'fail',msg:'✗ This course requires a passing grade in Mathematics or a Science subject.'+hint};
+  }
+
+  if(n==='3 N-level passes'){
+    if(passing.length>=3) return {status:'ok',msg:`✓ You meet the entry requirements (${passing.length} passing subjects entered)`};
+    if(passing.length>0) return {status:'warn',msg:`⚠ This course needs 3 passing grades — you have ${passing.length} so far. Enter all your subjects.`};
+    return {status:'warn',msg:'⚠ This course requires 3 N-level passes — enter your subjects and grades to verify'};
+  }
+
+  // "Completed GCE N Level" — anyone using this tool qualifies
+  return {status:'ok',msg:'✓ Completed N-level is the only requirement — you qualify'};
+}
+
+function eligibilityBadge(course){
+  const data=window._subjData||[];
+  if(data.length===0) return '';
+  const r=checkEligibility(course);
+  const colours={
+    ok:'background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7',
+    warn:'background:#fff8e1;color:#f57f17;border:1px solid #ffe082',
+    fail:'background:#ffebee;color:#c62828;border:1px solid #ef9a9a',
+    unknown:'background:#f5f5f5;color:#666;border:1px solid #ddd'
+  };
+  return `<div style="margin-top:5px;padding:4px 9px;border-radius:6px;font-size:10px;font-weight:500;${colours[r.status]}">${r.msg}</div>`;
+}
+
+function renderList(){
+  const sf=document.getElementById('sf').value;
+  const q=document.getElementById('cs').value.toLowerCase();
+  const userAgg=getUserAgg();
+  const filtered=COURSES.filter(c=>{
+    if(sf&&c.school!==sf)return false;
+    if(q&&!c.short.toLowerCase().includes(q))return false;
+    return true;
+  });
+  document.getElementById('clist').innerHTML=filtered.map(c=>{
+    const idx=selC.findIndex(s=>s.name===c.name);
+    const rank=idx>=0?idx+1:null;
+    const disabled=idx<0&&selC.length>=3;
+    const cop=copHtml(c.short,userAgg);
+    return`<div class="cr${rank?' picked':''}${disabled?' disabled':''}" data-name="${c.name.replace(/"/g,'&quot;')}" onclick="${disabled?'':'toggleC(this.dataset.name)'}">
+      ${rank?`<div class="rb">${rank}</div>`:'<div class="rbo"></div>'}
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:600;color:#111">${c.name}${c.new?'<span class="nbadge">New 2026</span>':''}</div>
+        <div style="font-size:11px;color:#777;margin-top:2px;line-height:1.4">${c.tagline}</div>
+        <div style="margin-top:4px">
+          ${cardCampusHtml(c, rank, selC)}
+          ${c.notes.map(n=>`<span class="stag s-danger">${n}</span>`).join('')}
+        </div>
+        ${cop?cop+'<p class="cop-note">2025 JIE \'N\' cut-off reference only — EAE applicants are not subject to this</p>':''}
+        ${eligibilityBadge(c)}
+      </div>
+      <span class="stag s-${c.school}" style="flex-shrink:0;margin-top:1px">${SL[c.school]}</span>
+    </div>`;
+  }).join('');
+  updateSum();
+}
+
+function toggleC(name){
+  const idx=selC.findIndex(c=>c.name===name);
+  if(idx>=0){selC.splice(idx,1);}
+  else if(selC.length<3){
+    const course=COURSES.find(c=>c.name===name);
+    selC.push({...course, writeup:'', chosenCampus: course.campuses[0]});
+  }
+  renderList();
+}
+
+function setCampus(name, campus){
+  const c=selC.find(x=>x.name===name);
+  if(c) c.chosenCampus=campus;
+  updateSum();
+}
+
+function updateSum(){
+  document.getElementById('choice-count').textContent=selC.length+' / 3 selected';
+  const el=document.getElementById('choices-summary');
+  if(!selC.length){el.innerHTML='<span style="font-size:12px;color:#888">No courses selected yet</span>';return;}
+  el.innerHTML=selC.map((c,i)=>{
+    const campusSel=c.campuses.length>1
+      ?`<select onchange="setCampus('${c.name.replace(/'/g,"\\'")}',this.value)" style="font-size:10px;padding:2px 7px;border-radius:5px;border:1px solid #b3d9f5;background:#e3f2fd;color:#0d47a1;font-weight:500;cursor:pointer;margin-top:3px">${c.campuses.map(p=>`<option value="${p}"${c.chosenCampus===p?' selected':''}>${p.replace('ITE College ','')}</option>`).join('')}</select>`
+      :`<span class="stag s-${c.school}" style="margin-top:3px;display:inline-block">${c.campuses[0].replace('ITE College ','')}</span>`;
+    const safeName=c.name.replace(/'/g,"\\'");
+    return`<div class="choice-summary-row" style="display:flex;align-items:center;gap:7px;margin-bottom:4px;padding:6px 9px;background:#f5f5f5;border-radius:7px">
+      <div class="rb" style="flex-shrink:0">${i+1}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:600">${c.name}</div>
+        <div class="choice-campus">${campusSel}</div>
+      </div>
+      <button onclick="toggleC('${safeName}')" title="Remove this course" style="flex-shrink:0;background:none;border:1px solid #ccc;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:13px;color:#999;display:flex;align-items:center;justify-content:center;padding:0;line-height:1" onmouseover="this.style.borderColor='#c62828';this.style.color='#c62828'" onmouseout="this.style.borderColor='#ccc';this.style.color='#999'">✕</button>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// WRITE-UPS
+// ══════════════════════════════════════════════════════════════
+function renderWU(){
+  const warn=document.getElementById('no-warn');
+  const cont=document.getElementById('wu-cards');
+  if(!selC.length){warn.style.display='block';cont.innerHTML='';return;}
+  warn.style.display='none';
+  const ord=['1st choice','2nd choice','3rd choice'];
+  const userAgg=getUserAgg();
+  cont.innerHTML=selC.map((c,i)=>`
+    <div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.75rem;box-shadow:0 1px 3px rgba(0,0,0,.04)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem">
+        <div><span class="choice-num">${ord[i]}</span><strong style="font-size:13px">${c.name}</strong>${c.new?'<span class="nbadge">New 2026</span>':''}</div>
+        <a href="https://www.ite.edu.sg/course-finder/${c.url}/" target="_blank" style="font-size:11px;color:#1565c0;text-decoration:none">View course page ↗</a>
+      </div>
+      <div style="background:#f5f5f5;border-radius:7px;padding:9px 11px;margin-bottom:9px;font-size:12px;line-height:1.6">
+        <div style="font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px">Keywords from this course — use these naturally in your write-up</div>
+        <div>${c.keywords.map(k=>`<span class="kw-pill">${k}</span>`).join('')}</div>
+        <div style="margin-top:7px;font-size:11px;color:#777">
+          <strong>Campus:</strong> ${c.campuses.join(', ')} &nbsp;|&nbsp;
+          <strong>Entry req:</strong> ${c.n_req}
+          ${c.jobs.length?' &nbsp;|&nbsp; <strong>Roles:</strong> '+c.jobs.slice(0,3).join(', '):''}
+        </div>
+        ${c.notes.length?`<div style="margin-top:4px;font-size:11px;color:#c62828"><strong>Note:</strong> ${c.notes.join(' · ')}</div>`:''}
+        ${copHtml(c.short,userAgg)?`<div style="margin-top:7px">${copHtml(c.short,userAgg)}<p class="cop-note">2025 JIE 'N' cut-off reference only — EAE applicants are not subject to this</p></div>`:''}
+        ${eligibilityBadge(c)}
+      </div>
+      <div class="hint" style="margin-bottom:9px">
+        Answer all 4 guiding questions from the ITE EAE form in your ~100 words:<br><br>
+        <strong>1.</strong> Why did you choose this course?<br>
+        <strong>2.</strong> How have you developed your interest? (CCA, projects, community work)<br>
+        <strong>3.</strong> What have you achieved in this area so far?<br>
+        <strong>4.</strong> Any competitions or awards related to this course?
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span class="lbl">Your write-up (~100 words)</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn" style="font-size:11px;padding:4px 10px" onclick="saveVersion(${i})">Save version</button>
+            <button class="btn" style="font-size:11px;padding:4px 10px" onclick="getHints(${i})">Get coaching questions</button>
+          </div>
+        </div>
+        <textarea id="wu-${i}" rows="6" oninput="saveWU(${i})">${c.writeup||('I have selected this course as my '+ord[i]+' because ')}</textarea>
+        <div class="wc" id="wc-${i}">0 / ~100 words</div>
+      </div>
+      <div id="ver-panel-${i}" style="margin-top:9px;display:${(wuHistory[i]&&wuHistory[i].length)?'block':'none'}">
+        <div class="ail">Version history — click to preview, restore if needed</div>
+        <div id="ver-chips-${i}"></div>
+        <div id="ver-preview-${i}" class="aibox" style="display:none;margin-top:6px;font-size:11px;white-space:pre-wrap"></div>
+      </div>
+      <div id="hints-${i}" style="display:none;margin-top:9px">
+        <div class="ail">Coaching questions — think through these, then write in your own words</div>
+        <div class="aibox" id="hc-${i}">Loading...</div>
+      </div>
+    </div>`).join('');
+  selC.forEach((_,i)=>{countWU(i);renderVerChips(i);});
+}
+
+function saveWU(i){selC[i].writeup=document.getElementById('wu-'+i).value;countWU(i);}
+
+function countWU(i){
+  const ta=document.getElementById('wu-'+i);if(!ta)return;
+  const starter='I have selected this course as my '+['1st choice','2nd choice','3rd choice'][i]+' because ';
+  let text=ta.value.trim();
+  if(text===starter.trim()) text='';
+  else if(text.startsWith(starter)) text=text.slice(starter.length).trim();
+  const w=text?text.split(/\s+/).filter(Boolean).length:0;
+  const el=document.getElementById('wc-'+i);
+  el.textContent=w+' / ~100 words';
+  el.className='wc '+(w>=85&&w<=120?'wok':w>120?'wov':'wwrn');
+}
+
+// ══════════════════════════════════════════════════════════════
+// VERSION HISTORY
+// ══════════════════════════════════════════════════════════════
+function saveVersion(i){
+  const text=document.getElementById('wu-'+i).value.trim();
+  if(!text){alert('Nothing to save yet — write something first!');return;}
+  if(!wuHistory[i]) wuHistory[i]=[];
+  const ts=new Date().toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
+  const dateStr=new Date().toLocaleDateString('en-SG',{day:'numeric',month:'short'});
+  wuHistory[i].unshift({text,ts,dateStr});
+  if(wuHistory[i].length>10) wuHistory[i].pop();
+  const panel=document.getElementById('ver-panel-'+i);
+  if(panel) panel.style.display='block';
+  renderVerChips(i);
+  persistDraftSilently();
+}
+
+function renderVerChips(i){
+  const container=document.getElementById('ver-chips-'+i);
+  if(!container) return;
+  const hist=wuHistory[i]||[];
+  if(!hist.length){container.innerHTML='';return;}
+  container.innerHTML=hist.map((v,vi)=>`
+    <button class="ver-chip" onclick="previewVer(${i},${vi})" id="vc-${i}-${vi}">
+      v${hist.length-vi} <span class="ver-date">${v.dateStr} ${v.ts}</span>
+    </button>`).join('');
+}
+
+function previewVer(i,vi){
+  const preview=document.getElementById('ver-preview-'+i);
+  const hist=wuHistory[i]||[];
+  if(!hist[vi]) return;
+  const chips=document.querySelectorAll(`[id^="vc-${i}-"]`);
+  chips.forEach(c=>c.classList.remove('active-ver'));
+  if(preview.dataset.showing===String(vi)&&preview.style.display!=='none'){
+    preview.style.display='none';preview.dataset.showing='';return;
+  }
+  document.getElementById(`vc-${i}-${vi}`).classList.add('active-ver');
+  preview.style.display='block';
+  preview.dataset.showing=String(vi);
+  preview.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <span style="font-size:10px;font-weight:600;color:#888">VERSION ${hist.length-vi} · ${hist[vi].dateStr} ${hist[vi].ts}</span>
+    <button class="btn" style="font-size:11px;padding:3px 9px" onclick="restoreVer(${i},${vi})">↩ Restore this version</button>
+  </div>${hist[vi].text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}`;
+}
+
+function restoreVer(i,vi){
+  const hist=wuHistory[i]||[];
+  if(!hist[vi]) return;
+  const ta=document.getElementById('wu-'+i);
+  if(!ta) return;
+  ta.value=hist[vi].text;
+  selC[i].writeup=hist[vi].text;
+  countWU(i);
+  document.getElementById('ver-preview-'+i).style.display='none';
+  document.querySelectorAll(`[id^="vc-${i}-"]`).forEach(c=>c.classList.remove('active-ver'));
+}
+
+// ══════════════════════════════════════════════════════════════
+// COACHING
+// ══════════════════════════════════════════════════════════════
+async function getHints(i){
+  const c=selC[i];
+  document.getElementById('hints-'+i).style.display='block';
+  const cont=document.getElementById('hc-'+i);
+  cont.innerHTML='<em style="color:#999">Generating coaching questions…</em>';
+  const writeup=document.getElementById('wu-'+i).value||'(not written yet)';
+  const level=document.getElementById('level').value||'student';
+  const sys='You are a supportive ITE ECG counsellor. Your job is to ask coaching QUESTIONS only — never write the answer for the student. Use **bold** to highlight the key part of each question. Always write in British English (e.g. organise, programme, colour).';
+  const prompt=`Course: ${c.name}
+Keywords ITE officers look for: ${c.keywords.slice(0,6).join(', ')}
+Career roles: ${c.jobs.join(', ')}
+
+The ITE EAE write-up must address in ~100 words:
+1. Why this course?
+2. How did you develop your interest? (CCA / projects / community work)
+3. What have you achieved in this area so far?
+4. Any competitions or awards related to this course?
+
+Student's current draft: "${writeup}"
+
+Give ONLY 3-4 short coaching questions to help them write better. Do NOT write the answer for them. Push them to be specific, use real personal examples, and naturally use the course keywords. If their draft has something strong, briefly say what. Under 120 words, warm and encouraging tone.`;
+  try{
+    const reply=await callClaude([{role:'user',content:prompt}],sys,400);
+    cont.innerHTML=mdToHtml(reply);
+  }catch(e){cont.innerHTML='<em>Connection error. Please check your internet and try again.</em>';}
+}
+
+// ══════════════════════════════════════════════════════════════
+// CHECKLIST
+// ══════════════════════════════════════════════════════════════
+async function runCheck(){
+  const box=document.getElementById('checklist');
+  box.innerHTML='<div class="aibox"><em style="color:#999">Checking your application…</em></div>';
+  const choices=selC.map((c,i)=>`Choice ${i+1}: ${c.short}\nWrite-up (${(c.writeup||'').trim().split(/\s+/).filter(Boolean).length} words): "${(c.writeup||'(empty)').slice(0,300)}"`).join('\n\n');
+  const sys='You are reviewing an ITE EAE application. Be honest, specific and constructive. Use **bold** for key points. Use ✓ good, ✗ missing, → needs improvement. Always write in British English.';
+  const prompt=`Checklist-review this student's ITE EAE application.
+Choices selected: ${selC.length?selC.map(c=>c.short).join(', '):'none'}
+
+${choices}
+
+CCAs: ${ccas.map(c=>c.name).join(', ')||'none listed'}
+Awards: ${awards.map(a=>a.name).join(', ')||'none listed'}
+
+Check:
+1. Has up to 3 ranked choices
+2. Each write-up addresses all 4 guiding questions (why this course / how interest developed / achievements / competitions)
+3. Each write-up is ~100 words (85–120 is ideal)
+4. Specific real experiences and examples are mentioned
+5. Course-relevant keywords are used naturally
+6. Achievements section has content
+Keep under 160 words total, honest and actionable.`;
+  try{
+    const reply=await callClaude([{role:'user',content:prompt}],sys,500);
+    box.innerHTML=`<div class="ail">Application checklist</div><div class="aibox">${mdToHtml(reply)}</div>`;
+  }catch(e){box.innerHTML='<div class="aibox"><em>Connection error. Please check your internet and try again.</em></div>';}
+}
+
+// ══════════════════════════════════════════════════════════════
+// ACHIEVEMENTS
+// ══════════════════════════════════════════════════════════════
+const FLDS={
+  cca:[
+    {id:'name',label:'CCA name (e.g. Volleyball, Chinese Orchestra, NPCC)'},
+    {id:'role',label:'Your role — Member / Exco / Leader / Captain / Treasurer / Vice-President / President'},
+    {id:'level',label:'Highest level reached — School (within your school) · Zonal (schools in your area compete) · National (Singapore-wide) · International'},
+    {id:'awards',label:'Awards or achievements through this CCA (e.g. SYF Gold, Zonal Champions — leave blank if none)'}
+  ],
+  award:[
+    {id:'name',label:'Award or competition name (not already listed under a CCA above)'},
+    {id:'level',label:'Level — School · Zonal · National · International'},
+    {id:'year',label:'Year won / participated'},
+    {id:'det',label:'Brief detail (e.g. 1st place, Gold, Participation, Scholarship recipient)'}
+  ],
+  other:[
+    {id:'name',label:'Activity or experience (e.g. Volunteer work, enrichment programme, part-time work)'},
+    {id:'role',label:'Your role (e.g. Volunteer, Participant, Student helper)'},
+    {id:'org',label:'Organisation or place (e.g. SASCO Senior Activity Centre, McDonalds)'},
+    {id:'det',label:'What you did or what you achieved'}
+  ]
+};
+const ARRS={cca:ccas,award:awards,other:others};
+
+function addForm(type){
+  const fid=type+'-form';
+  const ex=document.getElementById(fid);if(ex){ex.remove();return;}
+  const titles={cca:'Add CCA / leadership role',award:'Add award or competition',other:'Add community service or experience'};
+  const f=document.createElement('div');f.id=fid;f.className='card';f.style.marginTop='5px';
+  const flds=FLDS[type];
+  // Build all fields stacked with full label text as helper
+  const fieldHtml=flds.map(x=>{
+    // Short placeholder: first segment before ' — ' or '(' or end
+    const ph=x.label.split(/[—(·]/)[0].trim();
+    return `<div class="f"><span class="lbl" style="text-transform:none;letter-spacing:0;font-size:11px;color:#555;font-weight:500">${x.label}</span><input type="text" data-f="${x.id}" placeholder="${ph}"></div>`;
+  }).join('');
+  f.innerHTML=`<div class="ct">${titles[type]}</div>${fieldHtml}<button class="btn btnp" style="font-size:12px;padding:5px 13px" onclick="saveI('${type}','${fid}')">Add</button>`;
+  document.getElementById(type+'-list').after(f);
+}
+
+function saveI(type,fid){
+  const form=document.getElementById(fid);
+  const vals={};
+  form.querySelectorAll('[data-f]').forEach(el=>vals[el.dataset.f]=el.value);
+  if(!vals[FLDS[type][0].id].trim())return;
+  ARRS[type].push(vals);
+  renderAch(type+'-list',ARRS[type],type);
+  form.remove();
+}
+
+function renderAch(lid,arr,type){
+  const flds=FLDS[type];
+  document.getElementById(lid).innerHTML=arr.map((item,i)=>`
+    <div class="ir">
+      <div class="irc">
+        <div style="font-weight:500">${item[flds[0].id]||''}</div>
+        <div class="irs">${flds.slice(1).map(f=>item[f.id]).filter(Boolean).join(' · ')}</div>
+      </div>
+      <button class="rmb" onclick="rmI('${lid}',${i},'${type}')">✕</button>
+    </div>`).join('');
+}
+
+function rmI(lid,i,type){ARRS[type].splice(i,1);renderAch(lid,ARRS[type],type);}
+
+// ══════════════════════════════════════════════════════════════
+// DRAFT SYSTEM
+// ══════════════════════════════════════════════════════════════
+const DRAFT_KEY='ite_eae_drafts';
+const AUTO_KEY='ite_eae_autosave';
+
+function getState(){
+  return{
+    name:document.getElementById('name').value,
+    school:document.getElementById('school').value,
+    level:document.getElementById('level').value,
+    stream:document.getElementById('stream').value,
+    selC:selC.map(c=>({name:c.name,writeup:c.writeup,chosenCampus:c.chosenCampus})),
+    ccas:[...ccas],awards:[...awards],others:[...others],
+    wuHistory:{...wuHistory},
+    gradeRows:gradeRows.map(id=>{
+      const row=document.getElementById(id);
+      if(!row) return null;
+      const stSel=row.querySelector('.grade-stream');
+      const subSel=row.querySelector('.grade-subj');
+      const grSel=row.querySelector('.grade-sel');
+      return {stream:stSel?stSel.value:'NA',subject:subSel?subSel.value:'',grade:grSel?grSel.value:''};
+    }).filter(Boolean)
+  };
+}
+
+function applyState(s){
+  if(!s) return;
+  if(s.name) document.getElementById('name').value=s.name;
+  if(s.school) document.getElementById('school').value=s.school;
+  if(s.level) document.getElementById('level').value=s.level;
+  if(s.stream){document.getElementById('stream').value=s.stream;}
+  if(s.selC){
+    selC.length=0;
+    s.selC.forEach(sc=>{
+      const found=COURSES.find(c=>c.name===sc.name);
+      if(found) selC.push({...found,writeup:sc.writeup||'',chosenCampus:sc.chosenCampus||found.campuses[0]});
+    });
+  }
+  if(s.ccas){ccas.length=0;s.ccas.forEach(x=>ccas.push(x));renderAch('cca-list',ccas,'cca');}
+  if(s.awards){awards.length=0;s.awards.forEach(x=>awards.push(x));renderAch('award-list',awards,'award');}
+  if(s.others){others.length=0;s.others.forEach(x=>others.push(x));renderAch('other-list',others,'other');}
+  if(s.wuHistory) wuHistory={...s.wuHistory};
+  // Restore grade calculator rows
+  if(s.gradeRows&&s.gradeRows.length){
+    // Clear existing rows first
+    gradeRows.forEach(id=>{const el=document.getElementById(id);if(el)el.remove();});
+    gradeRows.length=0;
+    document.getElementById('grade-rows').innerHTML='';
+    // Rebuild each saved row
+    s.gradeRows.forEach(r=>{
+      if(!r||typeof r!=='object') return;
+      const id='gr-'+Date.now()+Math.random();
+      gradeRows.push(id);
+      const container=document.getElementById('grade-rows');
+      const row=document.createElement('div');
+      row.id=id;
+      row.className='grade-row';
+      const rowStream=r.stream||'NA';
+      row.innerHTML=`
+        <select class="grade-stream" onchange="onRowStreamChange('${id}')" style="font-size:11px;padding:4px 6px">
+          <option value="NA"${rowStream==='NA'?' selected':''}>N(A)</option>
+          <option value="NT"${rowStream==='NT'?' selected':''}>N(T)</option>
+          <option value="OL"${rowStream==='OL'?' selected':''}>O-Lvl</option>
+        </select>
+        <select class="grade-subj" onchange="calcAgg()" style="font-size:11px;padding:4px 6px">${subjectOptions(rowStream)}</select>
+        <select class="grade-sel" onchange="calcAgg()" style="font-size:11px;padding:4px 6px">${gradeOptions(rowStream)}</select>
+        <button class="btn grade-rm" style="font-size:11px;padding:4px 6px;color:#c62828" onclick="removeGradeRow('${id}')">✕</button>`;
+      container.appendChild(row);
+      // Set the saved subject and grade values
+      const subSel=row.querySelector('.grade-subj');
+      const grSel=row.querySelector('.grade-sel');
+      if(subSel&&r.subject) subSel.value=r.subject;
+      if(grSel&&r.grade) grSel.value=r.grade;
+    });
+    // Show calculator panel if rows were saved
+    const panel=document.getElementById('calc-panel');
+    if(panel) panel.style.display='block';
+    const toggle=document.querySelector('.calc-toggle');
+    if(toggle) toggle.textContent='▲ Hide calculator';
+    calcAgg();
+  }
+  renderList();updateSum();
+}
+
+function saveDraft(){
+  const drafts=JSON.parse(localStorage.getItem(DRAFT_KEY)||'[]');
+  const rawName=document.getElementById('draft-name-in').value.trim();
+  const draftName=rawName||(new Date().toLocaleString('en-SG',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}));
+  if(drafts.length>=MAX_DRAFTS){
+    if(!confirm(`You have ${MAX_DRAFTS} saved drafts (the maximum). Delete the oldest to make room?`)) return;
+    drafts.pop();
+  }
+  drafts.unshift({name:draftName,ts:Date.now(),state:getState()});
+  localStorage.setItem(DRAFT_KEY,JSON.stringify(drafts));
+  document.getElementById('draft-name-in').value='';
+  renderDraftList();
+  showToast('Draft saved: '+draftName);
+}
+
+function persistDraftSilently(){
+  try{localStorage.setItem(AUTO_KEY,JSON.stringify({ts:Date.now(),state:getState()}));}catch(e){}
+}
+function autoSilentSave(){persistDraftSilently();}
+
+function loadDraft(idx){
+  const drafts=JSON.parse(localStorage.getItem(DRAFT_KEY)||'[]');
+  if(!drafts[idx]) return;
+  if(confirm('Load draft "'+drafts[idx].name+'"? Your current work will be replaced.')){
+    applyState(drafts[idx].state);
+    document.getElementById('draft-panel').style.display='none';
+    showToast('Draft loaded: '+drafts[idx].name);
+  }
+}
+
+function deleteDraft(idx){
+  const drafts=JSON.parse(localStorage.getItem(DRAFT_KEY)||'[]');
+  if(!confirm('Delete draft "'+drafts[idx].name+'"?')) return;
+  drafts.splice(idx,1);
+  localStorage.setItem(DRAFT_KEY,JSON.stringify(drafts));
+  renderDraftList();
+}
+
+function renderDraftList(){
+  const drafts=JSON.parse(localStorage.getItem(DRAFT_KEY)||'[]');
+  const el=document.getElementById('draft-list');
+  if(!drafts.length){el.innerHTML='<span style="font-size:12px;color:#999">No saved drafts yet.</span>';return;}
+  el.innerHTML=drafts.map((d,i)=>`
+    <div class="draft-row">
+      <span class="draft-name">${d.name}</span>
+      <span class="draft-meta">${new Date(d.ts).toLocaleString('en-SG',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span>
+      <button class="btn" style="font-size:11px;padding:3px 9px" onclick="loadDraft(${i})">Load</button>
+      <button class="btn" style="font-size:11px;padding:3px 9px;color:#c62828" onclick="deleteDraft(${i})">Delete</button>
+    </div>`).join('');
+}
+
+function showDrafts(){
+  const panel=document.getElementById('draft-panel');
+  panel.style.display=panel.style.display==='none'?'block':'none';
+  renderDraftList();
+}
+
+function showToast(msg){
+  let t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:20px;right:20px;background:#1b5e20;color:#fff;padding:9px 16px;border-radius:8px;font-size:12px;font-weight:500;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:opacity .3s';document.body.appendChild(t);}
+  t.textContent=msg;t.style.opacity='1';
+  clearTimeout(t._timer);t._timer=setTimeout(()=>t.style.opacity='0',2500);
+}
+
+// ══════════════════════════════════════════════════════════════
+// AUTO-RESTORE ON LOAD
+// ══════════════════════════════════════════════════════════════
+(function(){
+  try{
+    const auto=JSON.parse(localStorage.getItem(AUTO_KEY)||'null');
+    if(auto&&auto.state) applyState(auto.state);
+  }catch(e){}
+  renderList();
+})();
+
+// ══════════════════════════════════════════════════════════════
+// EXPORT — mirrors the official ITE EAE template
+// ══════════════════════════════════════════════════════════════
+function renderExport(){
+  const name = document.getElementById('name').value || '___________________________';
+  const school = document.getElementById('school').value || '';
+  const level = document.getElementById('level').value || '';
+  const stream = document.getElementById('stream').value || '';
+  const streamLabel = {'NA':'Normal (Academic)','NT':'Normal (Technical)','OL':'Express / O-Level'}[stream] || stream;
+  const ord = ['1st','2nd','3rd'];
+  const ordLabel = ['1st Choice','2nd Choice','3rd Choice'];
+
+  // ── Section 2: course choices ──────────────────────────────
+  const choiceRows = selC.length ? selC.map((c,i) => {
+    const campus = c.chosenCampus || c.campuses[0] || '';
+    const campusShort = campus.replace('ITE College ','');
+    const wu = (c.writeup||'').trim();
+    const words = wu ? wu.split(/\s+/).filter(Boolean).length : 0;
+    const warnColor = words===0?'#c62828':words<85||words>120?'#e65100':'#2e7d32';
+    return `<div class="ite-choice-row">
+      <div class="ite-choice-label">${ordLabel[i]}</div>
+      <div class="ite-choice-inner">
+        <div style="font-size:11px;margin-bottom:4px">
+          <strong>Course Title:</strong> ${c.name} &nbsp;&nbsp; <strong>ITE College:</strong> ${campusShort}
+        </div>
+        <div style="font-size:11px;font-style:italic;margin-bottom:3px">I have selected this course as my ${ord[i]} choice because</div>
+        <div class="ite-writeup-box">${wu ? wu.split('\n').join('<br>') : '<em style="color:#aaa">No write-up entered yet</em>'}
+          <div style="text-align:right;font-size:10px;color:${warnColor};margin-top:4px">${words} / ~100 words</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('') : `<div style="padding:10px;font-size:11px;color:#999;font-style:italic">No courses selected yet. Go to Tab 3 to choose your courses.</div>`;
+
+  // ── Section 3: achievements ─────────────────────────────────
+  const achLines = [];
+  ccas.forEach(c=>{
+    const mainParts=[c.name,c.role,c.level].filter(Boolean).join(' · ');
+    const awardPart=c.awards?` (Achievement: ${c.awards})`:'';
+    achLines.push(`CCA / Leadership: ${mainParts}${awardPart}`);
+  });
+  awards.forEach(a=>{
+    const parts=[a.name,a.level,a.year,a.det].filter(Boolean).join(' · ');
+    achLines.push(`Award / Competition (non-CCA): ${parts}`);
+  });
+  others.forEach(o=>{
+    const parts=[o.name,o.role,o.org,o.det].filter(Boolean).join(' · ');
+    achLines.push(`Community / Other Experience: ${parts}`);
+  });
+  const achHtml = achLines.length
+    ? achLines.map(l=>`<div style="margin-bottom:4px;font-size:11px">• ${l}</div>`).join('')
+    : '<em style="color:#aaa;font-size:11px">No achievements entered yet. Go to Tab 5 to add them.</em>';
+
+  // ── Preparation checklist ──────────────────────────────────
+  const checkItems = [];
+
+  // Always needed
+  checkItems.push({text:'NRIC (front and back) / Student Pass — bring original to interview', done:false});
+  if(school) checkItems.push({text:`School reference / supporting letter from ${school}`, done:false});
+
+  // CCA records
+  if(ccas.length>0){
+    checkItems.push({text:`CCA records for: ${ccas.map(c=>c.name).join(', ')}`, done:false});
+  } else {
+    checkItems.push({text:'CCA records (if any)', done:false});
+  }
+
+  // Award certificates
+  if(awards.length>0){
+    checkItems.push({text:`Certificates for: ${awards.map(a=>a.name).join(', ')}`, done:false});
+  }
+
+  // Official results
+  checkItems.push({text:"Official GCE N- or O-Level results slip (if you have sat for GCE exams previously)", done:false});
+
+  // Course-specific requirements
+  const needsMedical = selC.some(c=>c.notes&&c.notes.some(n=>n.toLowerCase().includes('medical')));
+  const needsColour = selC.some(c=>c.notes&&c.notes.some(n=>n.toLowerCase().includes('colour')));
+  const needsVaccine = selC.some(c=>c.notes&&c.notes.some(n=>n.toLowerCase().includes('vaccin')));
+
+  if(needsMedical){
+    checkItems.push({text:'Medical check-up required — schedule before interview (courses with ^ require this)', done:false, highlight:true});
+  }
+  if(needsColour){
+    checkItems.push({text:'Colour vision test required — ensure you are free from colour appreciation deficiency', done:false, highlight:true});
+  }
+  if(needsVaccine){
+    checkItems.push({text:'Full COVID-19 vaccination required (Nursing) — ensure vaccination records are ready', done:false, highlight:true});
+  }
+
+  // Portfolio hint — Design & Media courses only
+  const hasDesignCourse = selC.some(c=>c.school==='design');
+  if(hasDesignCourse){
+    const designCourses=selC.filter(c=>c.school==='design').map(c=>c.short).join(', ');
+    checkItems.push({text:'For '+designCourses+': if called for interview, bring examples of your creative work — drawings, digital designs, photos of projects, or a sketchbook. Have them on your phone or laptop, and bring printouts if you can.', done:false});
+  }
+
+  // Work testimonials
+  if(others.length>0){
+    checkItems.push({text:`Work testimonial / proof for: ${others.map(o=>o.name).join(', ')}`, done:false});
+  }
+
+  // Write-up reminder
+  checkItems.push({text:'Softcopies of all supporting documents uploaded with online application', done:false});
+  checkItems.push({text:'Online application submitted at ite.edu.sg/apply-eae before the deadline', done:false});
+
+  const checkHtml = checkItems.map(item=>
+    `<li class="${item.highlight?'':''}" style="${item.highlight?'color:#c62828;font-weight:600':''}">${item.text}</li>`
+  ).join('');
+
+  // ── Aggregate score display ────────────────────────────────
+  const aggEl = document.getElementById('agg-result');
+  const aggText = (aggEl && aggEl.style.display!=='none') ? aggEl.textContent.trim() : null;
+
+  // ── Render ─────────────────────────────────────────────────
+  document.getElementById('export-content').innerHTML = `
+    <div class="print-note">
+      ⚠️ This is a <strong>preparation document</strong>, not the actual ITE EAE application form.
+      Use it to check and copy your write-ups into the online form at
+      <strong>ite.edu.sg/apply-eae</strong>.
+      Print this page and bring it to your interview as reference.
+    </div>
+
+    <div class="ite-form">
+      <div class="ite-form-header">
+        <div class="ite-form-logo">Institute of Technical Education</div>
+        <div class="ite-form-title">ITE Early Admissions Exercise (ITE EAE)</div>
+        <div class="ite-form-sub">PREPARATION TEMPLATE FOR WRITE-UPS</div>
+      </div>
+
+      <!-- Section 1 -->
+      <div class="ite-section">
+        <div class="ite-section-hdr">Section 1: Particulars of Applicant</div>
+        <div class="ite-section-body">
+          <div class="ite-field"><strong>Name:</strong> ${name}</div>
+          ${school?`<div class="ite-field"><strong>School:</strong> ${school}</div>`:''}
+          ${level?`<div class="ite-field"><strong>Level / Stream:</strong> ${level}${streamLabel?' — '+streamLabel:''}</div>`:''}
+          ${aggText?`<div class="ite-field"><strong>Estimated JIE 'N' aggregate:</strong> ${aggText} <em style="font-size:10px;color:#888">(EAE applicants are not subject to cut-off points)</em></div>`:''}
+        </div>
+      </div>
+
+      ${(()=>{
+        if(!selC.length) return '';
+        const _ae=document.getElementById('agg-result');
+        const _ua=(_ae&&_ae.style.display!=='none')?parseInt((_ae.textContent.match(/\d+/)||[])[0]):null;
+        const _cm={'ITE College Central':'CC-AM','ITE College East':'CE-SM','ITE College West':'CW-CK'};
+        const _rows=selC.map((c,ci)=>{
+          const _ca=c.chosenCampus||c.campuses[0];
+          const _co=_cm[_ca];
+          const _cd=COP[c.short];
+          const _cp=(_cd&&_co!==undefined&&_cd[_co]!==undefined)?_cd[_co]:undefined;
+          const _ol=['1st','2nd','3rd'];
+          const _cs=_ca.replace('ITE College ','');
+          if(_cp===undefined) return '';
+          if(_cp===null) return '<tr><td style="padding:4px 8px;border:1px solid #ccc;font-weight:500">'+_ol[ci]+': '+c.name+'</td><td style="padding:4px 8px;border:1px solid #ccc">'+_cs+'</td><td colspan="4" style="padding:4px 8px;border:1px solid #ccc;color:#6a1b9a;font-style:italic">New 2026 course — no COP yet. EAE is your best path in.</td></tr>';
+          if(_ua===null) return '<tr><td style="padding:4px 8px;border:1px solid #ccc;font-weight:500">'+_ol[ci]+': '+c.name+'</td><td style="padding:4px 8px;border:1px solid #ccc">'+_cs+'</td><td style="padding:4px 8px;border:1px solid #ccc;text-align:center">'+_cp+'</td><td colspan="3" style="padding:4px 8px;border:1px solid #ccc;color:#888;font-style:italic">Enter grades in Profile tab to see your gap</td></tr>';
+          const _g=_ua-_cp;
+          const _gc=_g<=0?'#1b5e20':_g<=3?'#b45309':'#c62828';
+          const _gs=_g<0?_g+' pts ('+Math.abs(_g)+' below COP)':_g===0?'0 (at COP)':'+'+_g+' pts above COP';
+          const _gm=_g<=0?'On track — EAE locks this in before results day!':_g<=3?'Close — a strong EAE portfolio bridges this gap.':'This is exactly why EAE exists — your passion counts here.';
+          return '<tr><td style="padding:4px 8px;border:1px solid #ccc;font-weight:500">'+_ol[ci]+': '+c.name+'</td><td style="padding:4px 8px;border:1px solid #ccc">'+_cs+'</td><td style="padding:4px 8px;border:1px solid #ccc;text-align:center;font-weight:700">'+_cp+'</td><td style="padding:4px 8px;border:1px solid #ccc;text-align:center;font-weight:700">'+_ua+'</td><td style="padding:4px 8px;border:1px solid #ccc;text-align:center;font-weight:700;color:'+_gc+'">'+_gs+'</td><td style="padding:4px 8px;border:1px solid #ccc;font-size:10px;color:'+_gc+';font-style:italic">'+_gm+'</td></tr>';
+        }).join('');
+        if(!_rows) return '';
+        return '<div class="ite-section" style="margin-bottom:0"><div class="ite-section-hdr">COP Gap Reality Check — Why EAE Matters For You</div><div class="ite-section-body"><p style="font-size:11px;color:#555;margin-bottom:8px;font-style:italic">2025 JIE N cut-off points shown for reference only. EAE applicants are NOT subject to these — this shows where you stand if applying via grades alone, and why your portfolio matters.</p><table style="font-size:11px;border-collapse:collapse;width:100%"><thead><tr style="background:#eee"><th style="padding:4px 8px;text-align:left;border:1px solid #ccc">Choice</th><th style="padding:4px 8px;text-align:left;border:1px solid #ccc">Campus</th><th style="padding:4px 8px;text-align:center;border:1px solid #ccc">2025 COP</th><th style="padding:4px 8px;text-align:center;border:1px solid #ccc">Your Score</th><th style="padding:4px 8px;text-align:center;border:1px solid #ccc">Gap</th><th style="padding:4px 8px;text-align:left;border:1px solid #ccc">What this means</th></tr></thead><tbody>'+_rows+'</tbody></table></div></div>';
+      })()}
+
+      <!-- Section 2 -->
+      <div class="ite-section ite-section2" style="border-top:none">
+        <div class="ite-section-hdr">Section 2: Choice of ITE Course and College (in order of preference)</div>
+        <div style="padding:6px 8px;font-size:11px;border-bottom:1px solid #ccc">
+          You may select up to 3 choices of course and College. For each choice, provide a write-up of up to around <strong>100 words</strong>.
+          Guiding questions: (1) Why this course? &nbsp; (2) How did you develop your interest? &nbsp; (3) What have you achieved? &nbsp; (4) Any competitions / awards?
+        </div>
+        ${choiceRows}
+      </div>
+
+      <!-- Section 3 -->
+      <div class="ite-section" style="border-top:none">
+        <div class="ite-section-hdr">Section 3: Other Talents &amp; Achievements</div>
+        <div class="ite-section-body" style="min-height:100px">
+          <div style="font-size:11px;color:#555;margin-bottom:6px;font-style:italic">
+            Sports, arts, leadership, entrepreneurship, community service. Include: category, level (National/Inter-school), role, activities, awards.
+          </div>
+          ${achHtml}
+        </div>
+      </div>
+
+      <!-- Preparation checklist -->
+      <div class="checklist-section">
+        <div class="checklist-hdr">📋 Interview Preparation Checklist — tick off before your interview</div>
+        <div class="checklist-body">
+          <ul style="padding:0;margin:0">${checkHtml}</ul>
+          <div style="margin-top:8px;font-size:10px;color:#888;border-top:1px solid #eee;padding-top:6px">
+            Generated by ITE EAE Portfolio Builder · For preparation purposes only · Submit your actual application at ite.edu.sg/apply-eae
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+</script>
+</body>
+</html>
