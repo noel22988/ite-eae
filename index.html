@@ -386,7 +386,7 @@ textarea{resize:vertical;line-height:1.6}
 
   <div class="fe">
     <div></div>
-    <div class="fe-right"><button class="btn btnp" onclick="go('chat')">Next: explore courses →</button></div>
+    <div class="fe-right"><button class="btn btnp" onclick="go('chat')">Next: Explore Courses →</button></div>
   </div>
 </div>
 
@@ -397,7 +397,7 @@ textarea{resize:vertical;line-height:1.6}
     <p style="font-size:12px;color:#666;margin-bottom:8px">Tell the advisor your interests, strengths or the kind of work you enjoy. It will suggest courses from all 49 Higher Nitec options that could be a great fit for you.</p>
     <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:7px;padding:7px 11px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
       <span style="font-size:11px;color:#5d4037">💡 <strong>Already know what you want?</strong> Skip the chat and go straight to choosing your courses.</span>
-      <button class="btn btnp" style="font-size:11px;padding:4px 12px;white-space:nowrap;flex-shrink:0" onclick="go('pick')">Choose courses →</button>
+      <button class="btn btnp" style="font-size:11px;padding:4px 12px;white-space:nowrap;flex-shrink:0" onclick="go('pick')">Choose Courses →</button>
     </div>
     <div class="chat-wrap">
       <div class="chat-msgs" id="chat-msgs">
@@ -425,7 +425,7 @@ textarea{resize:vertical;line-height:1.6}
   </div>
   <div class="fe">
     <button class="btn" onclick="go('profile')">← Back</button>
-    <div class="fe-right"><button class="btn btnp" onclick="go('pick')">Next: choose courses →</button></div>
+    <div class="fe-right"><button class="btn btnp" onclick="go('pick')">Next: Choose Courses →</button></div>
   </div>
 </div>
 
@@ -455,7 +455,7 @@ textarea{resize:vertical;line-height:1.6}
   </div>
   <div class="fe">
     <button class="btn" onclick="go('chat')">← Back</button>
-    <div class="fe-right"><button class="btn btnp" onclick="go('writeup')">Next: write-ups →</button></div>
+    <div class="fe-right"><button class="btn btnp" onclick="go('writeup')">Next: Write-ups →</button></div>
   </div>
 </div>
 
@@ -465,7 +465,7 @@ textarea{resize:vertical;line-height:1.6}
   <div id="wu-cards"></div>
   <div class="fe">
     <button class="btn" onclick="go('pick')">← Back</button>
-    <div class="fe-right"><button class="btn btnp" onclick="go('ach')">Next: achievements →</button></div>
+    <div class="fe-right"><button class="btn btnp" onclick="go('ach')">Next: Achievements →</button></div>
   </div>
 </div>
 
@@ -492,7 +492,7 @@ textarea{resize:vertical;line-height:1.6}
 
   <div class="fe">
     <button class="btn" onclick="go('writeup')">← Back</button>
-    <div class="fe-right"><button class="btn btnp" onclick="go('export')">Next: final export →</button></div>
+    <div class="fe-right"><button class="btn btnp" onclick="go('export')">Next: Final Export →</button></div>
   </div>
 </div>
 
@@ -1147,16 +1147,16 @@ function renderWU(){
         <div style="font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px">Keywords from this course — use these naturally in your write-up</div>
         <div>${c.keywords.map(k=>`<span class="kw-pill">${k}</span>`).join('')}</div>
         <div style="margin-top:7px;font-size:11px;color:#777">
-          <strong>Campus:</strong> ${c.campuses.join(', ')} &nbsp;|&nbsp;
-          <strong>Entry req:</strong> ${c.n_req}
-          ${c.jobs.length?' &nbsp;|&nbsp; <strong>Roles:</strong> '+c.jobs.slice(0,3).join(', '):''}
+          <strong>Campus:</strong> ${c.campuses.join(', ')} 
+          <br><strong>Entry req:</strong> ${c.n_req}
+          ${c.jobs.length?' <br><strong>Roles:</strong> '+c.jobs.slice(0,3).join(', '):''}
         </div>
         ${c.notes.length?`<div style="margin-top:4px;font-size:11px;color:#c62828"><strong>Note:</strong> ${c.notes.join(' · ')}</div>`:''}
         ${copHtml(c.short,userAgg)?`<div style="margin-top:7px">${copHtml(c.short,userAgg)}<p class="cop-note">2025 JIE 'N' cut-off reference only — EAE applicants are not subject to this</p></div>`:''}
         ${eligibilityBadge(c)}
       </div>
       <div class="hint" style="margin-bottom:9px">
-        Answer all 4 guiding questions from the ITE EAE form in your ~100 words:<br><br>
+        Answer all 4 guiding questions from the ITE EAE form in your ~100 words:<br>
         <strong>1.</strong> Why did you choose this course?<br>
         <strong>2.</strong> How have you developed your interest? (CCA, projects, community work)<br>
         <strong>3.</strong> What have you achieved in this area so far?<br>
