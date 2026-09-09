@@ -11,9 +11,7 @@ export default async function handler(req, res) {
 
   try {
     const { messages, system, max_tokens, model } = req.body;
-console.log('API key present:', !!process.env.ANTHROPIC_API_KEY);
-console.log('API key prefix:', process.env.ANTHROPIC_API_KEY?.substring(0,10));
-
+    
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -22,7 +20,7 @@ console.log('API key prefix:', process.env.ANTHROPIC_API_KEY?.substring(0,10));
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: model || 'claude-sonnet-4-20250514',
+        model: model || 'claude-sonnet-5',
         max_tokens: max_tokens || 500,
         system,
         messages,
